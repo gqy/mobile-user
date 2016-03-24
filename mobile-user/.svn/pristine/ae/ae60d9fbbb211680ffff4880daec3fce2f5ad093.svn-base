@@ -1,0 +1,51 @@
+<?xml version="1.0" encoding="UTF-8"?> 
+<!DOCTYPE log4j:configuration SYSTEM "log4j.dtd"> 
+ 
+<log4j:configuration xmlns:log4j="http://jakarta.apache.org/log4j/"> 
+          <!-- 控制台输出日志 -->
+    <appender name="Console" class="org.apache.log4j.ConsoleAppender">
+        <layout class="org.apache.log4j.PatternLayout">
+          <param name="ConversionPattern"    
+                value="%d{yy-MM-dd HH:mm:ss} %5p (%F:%L LINE) %C{1}.%M -> %m%n" /> 
+        </layout>
+    </appender>
+          <!-- 文件输出日志error -->
+    <appender name="outPut" 
+        class="org.apache.log4j.RollingFileAppender"> 
+        <param name="File" value="applog/webProject/webProject-error.log" /> 
+        <param name="MaxFileSize" value="1MB" /> 
+        <param name="MaxBackupIndex" value="5" />  
+        <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern"    
+                value="%d{yy-MM-dd HH:mm:ss} %5p (%F:%L LINE) %C{1}.%M -> %m%n" />  
+        </layout> 
+       
+                <!--过滤器设置输出的级别--> 
+       <filter class="org.apache.log4j.varia.LevelRangeFilter"> 
+            <param name="levelMin" value="error" /> 
+            <param name="levelMax" value="error" /> 
+            <param name="AcceptOnMatch" value="true" /> 
+        </filter>  
+    </appender> 
+   
+              <!-- 文件输出所有日志 -->
+    <appender name="allLog" 
+        class="org.apache.log4j.RollingFileAppender"> 
+        <param name="File" value="applog/webProject/webProject-all.log" /> 
+        <param name="MaxFileSize" value="1MB" /> 
+        <param name="MaxBackupIndex" value="5" />  
+        <layout class="org.apache.log4j.PatternLayout">
+         <param name="ConversionPattern"    
+                value="%d%d{yy-MM-dd HH:mm:ss} %5p (%F:%L LINE) %C{1}.%M -> %m%n" />  
+        </layout> 
+    </appender> 
+
+             <!-- 文件输出级别为debug -->
+    <root> 
+        <level value="debug" /> 
+        <appender-ref ref="Console" /> 
+        <appender-ref ref="outPut" /> 
+        <appender-ref ref="allLog" />
+    </root>
+    
+</log4j:configuration>

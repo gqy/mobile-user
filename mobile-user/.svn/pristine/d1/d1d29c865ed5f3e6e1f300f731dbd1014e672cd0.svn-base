@@ -1,0 +1,493 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+<title>用户管理 </title>
+<link rel="stylesheet" type="text/css" href="${mstaticRoot}/mui/mui.css" />
+<link rel="stylesheet" type="text/css" href="${mstaticRoot}/mui/mui.picker.min.css" />
+<link rel="stylesheet" type="text/css" href="${mstaticRoot}/mui/mui.poppicker.css" />
+
+<style>
+			.image{
+			-webkit-border-radius: 5px; 
+			}
+			.area {
+				margin: 20px auto 0px auto;
+			}
+			.mui-input-group:first-child {
+				margin-top: 20px;
+			}
+			.mui-input-group label {
+				width: 30%;
+			}
+			.mui-input-row label~input,
+			.mui-input-row label~select,
+			.mui-input-row label~textarea {
+				width: 70%;
+			}
+			.mui-checkbox input[type=checkbox],
+			.mui-radio input[type=radio] {
+				top: 6px;
+			}
+			.mui-content-padded {
+				margin-top: 25px;
+			}
+			.mui-btn {
+				padding: 10px;
+			}
+			
+			
+			
+			
+			.mui-scroll-wrapper,
+			.mui-scroll {
+				background-color: #efeff4;
+			}
+			.mui-page.mui-transitioning {
+				-webkit-transition: -webkit-transform 300ms ease;
+				transition: transform 300ms ease;
+			}
+			.mui-page-left {
+				-webkit-transform: translate3d(0, 0, 0);
+				transform: translate3d(0, 0, 0);
+			}
+			.mui-ios .mui-page-left {
+				-webkit-transform: translate3d(-20%, 0, 0);
+				transform: translate3d(-20%, 0, 0);
+			}
+			.mui-navbar {
+				position: fixed;
+				right: 0;
+				left: 0;
+				z-index: 10;
+				height: 44px;
+				background-color: #f7f7f8;
+			}
+			.mui-navbar .mui-bar {
+				position: absolute;
+				background: transparent;
+				text-align: center;
+			}
+			.mui-android .mui-navbar-inner.mui-navbar-left {
+				opacity: 0;
+			}
+			.mui-ios .mui-navbar-left .mui-left,
+			.mui-ios .mui-navbar-left .mui-center,
+			.mui-ios .mui-navbar-left .mui-right {
+				opacity: 0;
+			}
+			.mui-navbar .mui-btn-nav {
+				-webkit-transition: none;
+				transition: none;
+				-webkit-transition-duration: .0s;
+				transition-duration: .0s;
+			}
+			.mui-navbar .mui-bar .mui-title {
+				display: inline-block;
+				width: auto;
+			}
+			.mui-page-shadow {
+				position: absolute;
+				right: 100%;
+				top: 0;
+				width: 16px;
+				height: 100%;
+				z-index: -1;
+				content: '';
+			}
+			.mui-page-shadow {
+				background: -webkit-linear-gradient(left, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+				background: linear-gradient(to right, rgba(0, 0, 0, 0) 0, rgba(0, 0, 0, 0) 10%, rgba(0, 0, 0, .01) 50%, rgba(0, 0, 0, .2) 100%);
+			}
+			.mui-navbar-inner.mui-transitioning,
+			.mui-navbar-inner .mui-transitioning {
+				-webkit-transition: opacity 300ms ease, -webkit-transform 300ms ease;
+				transition: opacity 300ms ease, transform 300ms ease;
+			}
+			.mui-page {
+				display: none;
+			}
+			.mui-pages .mui-page {
+				display: block;
+			}
+			.mui-page .mui-table-view:first-child {
+				margin-top: 15px;
+			}
+			.mui-page .mui-table-view:last-child {
+				margin-bottom: 30px;
+			}
+			
+			
+			.mui-table-view span.mui-pull-right {
+				color: #999;
+			}
+			.mui-table-view-divider {
+				background-color: #efeff4;
+				font-size: 14px;
+			}
+			.mui-table-view-divider:before,
+			.mui-table-view-divider:after {
+				height: 0;
+			}
+			.head {
+				height: 40px;
+			}
+			#head {
+				line-height: 40px;
+			}
+			.head-img {
+				width: 40px;
+				height: 40px;
+			}
+			#head-img1 {
+				position: absolute;
+				bottom: 10px;
+				right: 40px;
+				width: 40px;
+				height: 40px;
+			}
+			.update {
+				font-style: normal;
+				color: #999999;
+				margin-right: -25px;
+				font-size: 15px
+			}
+			.mui-fullscreen {
+				position: fixed;
+				z-index: 20;
+				background-color: #000;
+			}
+			.mui-ios .mui-navbar .mui-bar .mui-title {
+				position: static;
+			}
+			#mui-navigate-right{line-height: 42px;vertival-align:middle;}
+			.mui-media-object{border-radius:50%;}
+			
+</style>
+</head>
+
+<body>
+        <header class="mui-bar mui-bar-nav">
+			<a class="mui-action-back mui-icon mui-icon-left-nav mui-pull-left"></a>
+			<h1 class="mui-title">个人信息</h1>
+		</header>
+		<div class="mui-content">
+		<!--页面主内容区开始-->
+			<div class="mui-page-content">
+				
+			    <ul class="mui-table-view mui-table-view-chevron">
+			        <li class="mui-table-view-divider">账号</li>
+					<li class="mui-table-view-cell">斐讯ID<i id="phicomm_id" class="mui-pull-right update">${phicomm_id.phicommId}</i></li>
+					<li class="mui-table-view-divider">基础资料</li>
+					<li class="mui-table-view-cell mui-media" >
+					    <a class="mui-navigate-right" id="mui-navigate-right" href="#picture">
+					                   头像
+						    <i class="mui-pull-right update">
+							    <img class="mui-media-object mui-pull-right" src="http://dev.dcloud.net.cn/mui/assets/img/muwu.jpg">
+						    </i>
+					    </a>
+					</li>
+                    <li class="mui-table-view-cell">
+						<a href="#about" class="mui-navigate-right">昵称 <i class="mui-pull-right update">
+						                                    <#if ((phicomm_id.nickname)?default("")) == "">
+															未设置
+															<#else>
+															 ${phicomm_id.nickname}
+															</#if></i></a>
+					</li>
+                    <li class="mui-table-view-cell">
+                       <a class="mui-navigate-right" href="#sex">性别<i class="mui-pull-right update" id="sexdata"> 
+                                                            <#if ((phicomm_id.sex)?default("")) == "">
+															未设置
+															<#else>
+															 ${phicomm_id.sex}
+															</#if></i></a>
+                    </li>
+                    <li class="mui-table-view-cell" id="birthday" data-options='{"type":"date","beginYear":1900,"endYear":2200}'>
+                       <a class="mui-navigate-right">生日<i class="mui-pull-right update" id="birthdaydata">
+                                                           <#if ((phicomm_id.birthday)?default("")) == "">
+															未设置
+															<#else>
+															 ${phicomm_id.birthday}
+															</#if></i></a>
+                    </li>
+                     <li class="mui-table-view-cell" id="city">
+                       <a  class="mui-navigate-right">城市<i class="mui-pull-right update" id="citydata"> 
+                                                            <#if ((phicomm_id.city)?default("")) == "">
+															未设置
+															<#else>
+															 ${phicomm_id.city}
+															</#if></i></a></i></a>
+                      
+                    </li>
+				    <li class="mui-table-view-divider">密保资料 </li>
+				     <li class="mui-table-view-cell">
+                       <a class="mui-navigate-right">绑定手机<i class="mui-pull-right update">18251901682</i></a>
+                    </li>
+                    <li class="mui-table-view-cell">
+                       <a class="mui-navigate-right">安全邮箱<i class="mui-pull-right update">未绑定</i></a>
+                    </li>
+				</ul>
+			    <div id='cityResult' class="ui-alert"></div>
+				<div id='dateResult' class="ui-alert"></div>
+				<div id="info"></div>
+						<!--页面主内容区结束-->
+				<div id="picture" class="mui-popover mui-popover-action mui-popover-bottom">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#">拍照</a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#">图库</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#picture"><b>取消</b></a>
+							</li>
+						</ul>
+			     </div>
+			     <div id="sex" class="mui-popover mui-popover-action mui-popover-bottom">
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#" id="sexboy">男 </a>
+							</li>
+							<li class="mui-table-view-cell">
+								<a href="#" id="sexgirl">女</a>
+							</li>
+						</ul>
+						<ul class="mui-table-view">
+							<li class="mui-table-view-cell">
+								<a href="#picture"><b>取消</b></a>
+							</li>
+						</ul>
+			     </div>
+			</div>
+	
+		</div>
+	<script type="text/javascript" src="${mstaticRoot}/mui/mui.min.js"></script>
+	<script type="text/javascript" src="${mstaticRoot}/mui/mui.picker.min.js"></script>
+	<script type="text/javascript" src="${mstaticRoot}/mui/mui.poppicker.js"></script>
+	<script type="text/javascript" src="${mstaticRoot}/mui/city.data.js"></script>
+	<script type="text/javascript" src="${mstaticRoot}/mobile/js/jquery.min.js"></script>
+	<!-- 城市更新开始---------------------------------------------------------------------------->
+	<script>
+        	var phicomm_id=document.getElementById("phicomm_id").innerHTML;
+        	var citydata=$('#citydata')[0];
+        	function updatebykeytwo(m1,n1,m2,n2){
+        		 mui.ajax('${basePath}/h5/useroperate/updatebykeytwo',{
+						data:{
+							phicomm_id:phicomm_id,
+							key1:m1,
+							value1:n1,
+							key2:m2,
+							value2:n2
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							mui.toast(data.desc);
+							if(data.status=='001'){
+								citydata.innerText = n2;
+							}
+									},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							mui.toast('未知错误');
+						}
+					});
+        	}
+			(function($, doc) {
+				$.init();
+				$.ready(function() {
+			
+					//级联示例
+					var cityPicker = new $.PopPicker({
+						layer: 2
+					});
+					cityPicker.setData(cityData);
+					var showCityPickerButton = doc.getElementById('city');
+					var cityResult = doc.getElementById('cityResult');
+					showCityPickerButton.addEventListener('tap', function(event) {
+						cityPicker.show(function(items) {
+							cityResult.innerText = "你选择的城市是:" + items[0].text + " " + items[1].text;
+							//返回 false 可以阻止选择框的关闭
+							//return false;
+                            if(items[0].text=='北京市' || items[0].text=='上海市' || items[0].text=='天津市' || items[0].text=='重庆' || items[0]=='澳门' || items[0]=='香港'){
+                            	updatebykeytwo('province',items[0].text,'city',items[0].text);
+                           		 
+							}else{
+								updatebykeytwo('province',items[0].text,'city',items[1].text);
+							}
+						});
+					}, false);
+					//-----------------------------------------
+					
+				});
+			})(mui, document);
+		</script>
+		<!-- 城市更新结束--------------------------------------------------------------------------------->
+		<!-- 生日更新开始--------------------------------------------------------------------------------->
+		<script>
+			var phicomm_id=document.getElementById("phicomm_id").innerHTML;
+			
+			(function($) {
+				$.init();
+				var birthdaydata=$('#birthdaydata')[0];
+				var result = $('#dateResult')[0];
+				var btns = $('#birthday');
+				
+				btns.each(function(i, btn) {
+					btn.addEventListener('tap', function() {
+						
+						var optionsJson = this.getAttribute('data-options') || '{}';
+						
+						var options = JSON.parse(optionsJson);
+						var id = this.getAttribute('id');
+						/*
+						 * 首次显示时实例化组件
+						 * 示例为了简洁，将 options 放在了按钮的 dom 上
+						 * 也可以直接通过代码声明 optinos 用于实例化 DtPicker
+						 */
+						var picker = new $.DtPicker(options);
+						picker.show(function(rs) {
+							/*
+							 * rs.value 拼合后的 value
+							 * rs.text 拼合后的 text
+							 * rs.y 年，可以通过 rs.y.vaue 和 rs.y.text 获取值和文本
+							 * rs.m 月，用法同年
+							 * rs.d 日，用法同年
+							 * rs.h 时，用法同年
+							 * rs.i 分（minutes 的第二个字母），用法同年
+							 */
+							 mui.ajax('${basePath}/h5/useroperate/updatebykey',{
+									data:{
+										phicomm_id:phicomm_id,
+										key:'birthday',
+										value:rs.text
+									},
+									dataType:'json',//服务器返回json格式数据
+									type:'post',//HTTP请求类型
+									timeout:10000,//超时时间设置为10秒；
+									success:function(data){
+										//服务器返回响应，根据响应结果，分析是否登录成功；
+										mui.toast(data.desc);
+										if(data.status=='001'){
+											birthdaydata.innerText = rs.text;
+											geqinyangObj.getUpdateInfo(phicomm_id,'birthday',rs.text);
+											
+											
+										}
+												},
+									error:function(xhr,type,errorThrown){
+										//异常处理；
+										mui.toast('未知错误');
+									}
+								});
+							
+							 result.innerText = '选择结果: ' + rs.text;
+							/* 
+							 * 返回 false 可以阻止选择框的关闭
+							 * return false;
+							 */                                                                                                                                                                                                                                                          
+							/*
+							 * 释放组件资源，释放后将将不能再操作组件
+							 * 通常情况下，不需要示放组件，new DtPicker(options) 后，可以一直使用。
+							 * 当前示例，因为内容较多，如不进行资原释放，在某些设备上会较慢。
+							 * 所以每次用完便立即调用 dispose 进行释放，下次用时再创建新实例。
+							 */
+							picker.dispose();
+						});
+					}, false);
+				});
+			})(mui);
+		</script>
+		<!-- 生日更新结束-------------------------------------------------------------------------------->
+		<!-- 头像性别更新开始-------------------------------------------------------------------------------->
+		<script>
+		mui.init({
+			swipeBack:true //启用右滑关闭功能
+		});
+		mui('body').on('shown', '.mui-popover', function(e) {
+			//console.log('shown', e.detail.id);//detail为当前popover元素
+		});
+		mui('body').on('hidden', '.mui-popover', function(e) {
+			//console.log('hidden', e.detail.id);//detail为当前popover元素
+		});
+		var info = document.getElementById("info");
+		var sexdata=$('#sexdata')[0];
+		mui('body').on('tap', '.mui-popover-action li>a', function() {
+			var a = this,
+				parent;
+			//根据点击按钮，反推当前是哪个actionsheet
+			for (parent = a.parentNode; parent != document.body; parent = parent.parentNode) {
+				if (parent.classList.contains('mui-popover-action')) {
+					break;
+				}
+			}
+			if(a.innerHTML=="拍照"){
+				geqinyangObj.openCamera();
+			}else if(a.innerHTML=="图库"){
+				geqinyangObj.openGallery();
+			}else if(a.innerHTML=="男"){
+				 mui.ajax('${basePath}/h5/useroperate/updatebykey',{
+						data:{
+							phicomm_id:phicomm_id,
+							key:'nickname',
+							value: 
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							mui.toast(data.desc);
+							if(data.status=='001'){
+								sexdata.innerHTML ='男'
+								geqinyangObj.getUpdateInfo(phicomm_id,'sex','男');
+								
+								
+							}
+									},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							mui.toast('未知错误');
+						}
+					});
+			}else if(a.innerHTML=="女"){
+				 mui.ajax('${basePath}/h5/useroperate/updatebykey',{
+						data:{
+							phicomm_id:phicomm_id,
+							key:'sex',
+							value:'女'
+						},
+						dataType:'json',//服务器返回json格式数据
+						type:'post',//HTTP请求类型
+						timeout:10000,//超时时间设置为10秒；
+						success:function(data){
+							//服务器返回响应，根据响应结果，分析是否登录成功；
+							mui.toast(data.desc);
+							if(data.status=='001'){
+								sexdata.innerHTML ='女'
+								geqinyangObj.getUpdateInfo(phicomm_id,'sex','女');
+								
+								
+							}
+									},
+						error:function(xhr,type,errorThrown){
+							//异常处理；
+							mui.toast('未知错误');
+						}
+					});
+			}
+			//关闭actionsheet
+			mui('#' + parent.id).popover('toggle');
+			info.innerHTML = "你刚点击了\"" + a.innerHTML + "\"按钮";
+		})
+	</script>
+	<!-- 头像性别更新结束------------------------------------------------------------------------------------>
+</body>
+</html>

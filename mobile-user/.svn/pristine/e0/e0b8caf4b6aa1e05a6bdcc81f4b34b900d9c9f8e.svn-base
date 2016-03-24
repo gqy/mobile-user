@@ -1,0 +1,89 @@
+package com.fx.mobile.user.action;
+
+import java.io.IOException;
+
+import javax.servlet.http.HttpServletRequest;
+
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Controller;
+
+import com.fx.mobile.user.action.BaseAction;
+
+
+
+public class UserunionloginAction extends BaseAction {
+
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = -72421187174779094L;
+
+	// 退出，注销用户
+	public void qqlogin() {
+		System.out.println("1231231231");
+		log.debug("qqlogin");
+	
+
+	}
+
+	public void tologin() {
+		try {
+			System.out.println("1231231231");
+//			String authorizeURL = new Oauth().getAuthorizeURL(getRequest());
+//			System.out.println("authorizeURL====" + authorizeURL);
+
+//			getResponse().sendRedirect(authorizeURL);
+		} catch (Exception e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+
+	}
+
+	public String afterLogin() {
+//		try {
+//			HttpServletRequest request = getRequest();
+//			AccessToken accessTokenObj = (new Oauth())
+//					.getAccessTokenByRequest(request);
+//			String accessToken = null, openID = null;
+//			long tokenExpireIn = 0L;
+//			if (accessTokenObj.getAccessToken().equals("")) {
+//				// 我们的网站被CSRF攻击了或者用户取消了授权
+//				// 做一些数据统计工作
+//				System.out.print("没有获取到响应参数");
+//			} else {
+//				accessToken = accessTokenObj.getAccessToken();
+//				tokenExpireIn = accessTokenObj.getExpireIn();
+//
+//				request.getSession().setAttribute("feixun_access_token",
+//						accessToken);
+//				request.getSession().setAttribute("feixun_token_expirein",
+//						String.valueOf(tokenExpireIn));
+//
+//				// 利用获取到的accessToken 去获取当前用的openid -------- start
+//				OpenID openIDObj = new OpenID(accessToken);
+//				openID = openIDObj.getUserOpenID();
+//
+//				request.getSession().setAttribute("feixun_openid", openID);
+//
+//				// 利用获取到的accessToken 去获取当前用户的openid --------- end
+//
+//				UserInfo qzoneUserInfo = new UserInfo(accessToken, openID);
+//				UserInfoBean userInfoBean = qzoneUserInfo.getUserInfo();
+//				System.out.println(userInfoBean);
+//				if (userInfoBean.getRet() == 0) {
+//					resultMap.put("ret", userInfoBean.getRet());
+//				} else {
+//					resultMap.put("ret", userInfoBean.getRet());
+//				}
+//				resultMap.put("nickname", userInfoBean.getNickname());
+//			}
+//		} catch (Exception e) {
+//			// TODO Auto-generated catch block
+//			e.printStackTrace();
+//		}
+//           return JSONOBJ2STR;
+		return null;
+	}
+
+}

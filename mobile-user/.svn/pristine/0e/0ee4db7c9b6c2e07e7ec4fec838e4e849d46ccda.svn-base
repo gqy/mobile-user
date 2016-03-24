@@ -1,0 +1,86 @@
+package com.fx.mobile.user.dao;
+
+import java.util.List;
+
+import com.fx.mobile.model.UserOperate;
+
+
+public interface UserOperateDao {
+	public int updateUserPwd(String mobileNumber,String newPwd);
+	/**
+	 * 登录用户或检测用户是否存在（用户名和密码登录）
+	 * @param user
+	 * @return
+	 */
+	public List<UserOperate> longin(UserOperate user);
+	
+	/**
+	 * 注册账户
+	 * @param UserOperate  这里传入对象，获取到页面传的值赋给对象；
+	 * ********************可以统一调用这个接口进行注册，可用注册参数邮箱、用户名、手机号+密码
+	 * @return
+	 */
+	public String registAccount(UserOperate user); 
+	
+	/**
+	 * 查询用户是否存在
+	 * @param UserOperate 这里传入对象，获取到页面传的值赋给对象；
+	 * ********************可以统一调用这个接口进行查询，参数可用邮箱、用户名、手机号
+	 * @return
+	 */
+	public List<UserOperate> findUsers(UserOperate user);
+	
+	
+	
+	/**
+	 * 
+	 * 查询用户是否存在
+	 * @author jinhua.li
+	 * @Date 2015年4月7日15:08:20
+	 * @param UserOperate 这里传入对象，获取到页面传的值赋给对象；
+	 * ********************可以统一调用这个接口进行查询，参数可用邮箱、用户名、手机号
+	 * @return
+	 */
+	public boolean isExistUser(UserOperate user);
+	
+	
+	/**
+	 * 查找最后一个插入的phicommId ；目的：需要处理PhicommId号，每次加1使每个用户都有不同的PhicommId可登录
+	 * @return
+	 */
+	public List<UserOperate> findEndPhicommId();
+	
+	/**
+	 * （更新用户信息）每次输入用户名和密码登录后，需要修改登录令牌，和过期时间 (用户对象修改)
+	 * @param user
+	 */
+	public void updateLoginInfo(UserOperate user);
+	
+	/**
+	 * 用户二次登录（根据openId和tokenId以及过期）
+	 * @param userOperate
+	 * @return
+	 */
+	public List<UserOperate> getSempUser(UserOperate userOperate);
+	
+
+	/**
+	 * 根据唯一id查询用户信息
+	 * @param openId
+	 * @return
+	 */
+	public List<UserOperate> findUserByOpenId(String openId);
+	
+	/**
+	 * 根据用户唯一id修改（上传）用户头像
+	 * @param openid
+	 */
+	public void updateUserHeadPortraitByOpenid(String openid,String headPortraitPic);
+	
+	/**
+	 * 修改用户基本信息
+	 * @param openId
+	 */
+	public void updateUserInfo(UserOperate userOp);
+
+}

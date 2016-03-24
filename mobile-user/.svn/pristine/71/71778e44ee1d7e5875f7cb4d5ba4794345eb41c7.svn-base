@@ -1,0 +1,4 @@
+#Hessian \u8c03\u7528\u8d44\u6e90\u670d\u52a1\u5668\u5730\u5740
+market.remote.file.url=http\://192.168.40.19\:8080/marketing/remoting/uploadRemote
+market.file.http.url=http\://114.141.173.13\:8080/marketFile
+img.temp.path=D:\\dev\\webapps

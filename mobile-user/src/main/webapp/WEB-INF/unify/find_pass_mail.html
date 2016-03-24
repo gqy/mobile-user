@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=devidw-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<title>找回密码输入账号</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<style type="text/css">
+		article{margin-top: 6px;margin-bottom: 70%;}
+		#content{margin-bottom: 120px;}
+		article .wrapper label{color: #f68121;color: #000;}
+		article .wrapper .hide_switch, article .wrapper .btn_delete{visibility: hidden;}
+		article .wrapper .delete3{margin-right: -2px;right: 10px;position: absolute;right: 90px;}
+		article .wrapper .hide_switch{margin-right: 6px;}
+		article .wrapper i img{width: 18px;height: 18px;}
+		article .log{margin-top: 16px;}
+		article .log button{background: #E0E0E0;color: #ACACAC;}
+		article .wrapper .confirm{position: relative;}
+		article .wrapper .confirm input{width: 40%;}
+		article .wrapper .confirm i{margin-right: 6px;height: 18px;height: 18px;vertical-align: middle;}
+		/*article .wrapper .btn_delete3{visibility: hidden;}*/
+		article .wrapper .confirm .receive_msg{width: 90px;height: 30px;background-color: #FFA800;cursor: pointer;vertical-align: middle;}
+		article p{font-size: 12px;text-align: center;color: #acacac;}
+		article p a{color: #3772ea;}
+		article .wrapper .count{border-bottom: none;}
+		.log .btn_register{background-color:#F68121;color:#fff;}
+	</style>
+</head>
+<body>
+	<header>
+		<div class="head">
+			<a onClick="javascript :history.go(-1);"><img src="../imgs/icon_back.png" class="back"></a>
+			<a href="#">邮箱找回密码</a>
+			
+		</div>
+	</header>
+
+	<article>
+		<div id="content">
+			<div class="error">
+				<i><img src="../imgs/Error_prompt.png"></i>
+				<p>账号不存在</p>
+			</div>
+			<div class="wrapper">
+				<div class="count">
+					<label for="person">账号</label>
+					<input id="person" type="text" placeholder="请输入用户名">
+					<i class="r btn_delete delete1"><img src="../imgs/btn_Eliminate.png"></i>
+				</div>
+			</div>
+			<div class="log">
+				<button class="btn_register" id="findpass">找回密码</button>
+			</div>
+		</div>
+	</article>
+
+	<footer>
+		<p>上海斐讯数据通信技术有限公司 版权所有</p>
+		<p>Copyright &copy;2014-2015 PHICOMM. All Rights Reserved.</p>
+	</footer>
+	
+	<div class="mask_layer">
+		<img src="../imgs/loading.gif">
+	</div>
+
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../js/screen.js"></script>
+	<script type="text/javascript" src="../js/public.js"></script>
+	<script type="text/javascript" src="../js/findpassmail.js"></script>
+	<script type="text/javascript">
+		var context = "${basePath}";
+	</script>
+</body>
+</html>

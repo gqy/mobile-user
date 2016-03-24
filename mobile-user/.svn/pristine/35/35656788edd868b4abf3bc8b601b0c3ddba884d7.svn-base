@@ -1,0 +1,83 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>登录斐讯账号</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<style type="text/css">
+		article{margin-top: 6px;}
+		article .wrapper label{color: #f68121;color: #000;}
+		article .wrapper .hide_switch, article .wrapper .btn_delete, article .wrapper .btn_delete2{visibility: hidden;}
+		article .wrapper .btn_delete2{margin-right: 10px;}
+		article .wrapper i img{width: 18px;height: 18px;}
+		article .miss_count{overflow: hidden;margin-right: 20px;}
+		article .miss_count a{float: right;text-decoration: none;font-size: 12px;color: #f68121;}
+		article .third_count{width: 100%;text-align: center;margin-top: 44%;}
+		article .third_count a{display: inline-block;width: 40%;}
+		article .third_count a img{height: 100%;width: 94%;}
+		article .log button{background: #F68121;}
+	</style>
+
+</head>
+<body>
+
+	<header>
+		<div class="head">
+			<a href="#"><img src="../imgs/icon_back.png" class="back"></a>
+			<a href="#">登录斐讯账号</a>
+			<a href="${basePath}/generalunify/toregisterphone" class="register">注册</a>
+		</div>
+	</header>
+
+	<article>
+		<div id="content">
+			<div class="error">
+				<i><img src="../imgs/Error_prompt.png"></i>
+				<p>密码错误</p>
+			</div>
+			<div class="wrapper">
+				<div class="count">
+					<label for="person">账号</label>
+					<input id="person" type="text" placeholder="邮箱/手机/用户名/ID">
+					<i class="r btn_delete delete1"><img src="../imgs/btn_Eliminate.png"></i>
+				</div>
+				<div class="pwd">
+					<label for="pwd">密码</label>
+					<input id="pwd" type="password" placeholder="密码">
+					<i class="r btn_delete delete2"><img src="../imgs/btn_Eliminate.png"></i>
+					<i class="r hide_switch"><img src="../imgs/btn_display_switch.png"></i>
+				</div>
+			</div>
+			<div class="log">
+				<button>登录</button>
+			</div>
+			<p class="miss_count">
+				<a href="#">忘记密码？</a>
+			</p>
+		</div>
+		<div class="third_count">
+			<a href="#"><img src="../imgs/btn_WeChat_login.png" class="qq"></a>
+			<a href="http://cloud.czwap.net//mobile-user/union/toqqlogin""><img src="../imgs/btn_QQ_login.png" class="wechat"></a>
+		</div>
+	</article>
+
+	<footer>
+		<p>上海斐讯数据通讯技术有限公司 版权所有</p>
+		<p>Copyright &copy;2014-2015 PHICOMM. All Rights Reserved.</p>
+	</footer>
+
+	<div class="mask_layer">
+		<img src="../imgs/loading.gif">
+	</div>
+
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../js/login.js"></script>
+	<script type="text/javascript" src="../js/public.js"></script>
+	<script language="javascript">
+
+var context = '${basePath}';
+	</script>
+
+</body>
+</html>

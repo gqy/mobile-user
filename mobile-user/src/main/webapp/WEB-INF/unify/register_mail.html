@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Register_mail</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<style type="text/css">
+
+		article{margin-top: 6px;}
+		#content{margin-bottom: 120px;}
+		article .wrapper label{color: #f68121;color: #000;}
+		article .wrapper .hide_switch, article .wrapper .btn_delete{visibility: hidden;}
+		article .wrapper .hide_switch{margin-right: 6px;}
+		article .wrapper i img{width: 18px;height: 18px;}
+		article .log{margin-top: 16px;}
+		article .log button{background: #E0E0E0;color: #ACACAC;}
+		#msg{width: 15%;}
+		article .wrapper .confirm{position: relative;}
+		article .wrapper .confirm input{width: 40%;margin-right: 4px;}
+		article .wrapper .confirm i{height: 18px;height: 18px;vertical-align: middle;}
+		article .wrapper .confirm .delete4{position: absolute;right: 190px;}
+		article .wrapper .confirm .code{margin-left: 2px;margin-right: 4px;width: 90px;letter-spacing: 2px;}
+		article .wrapper .confirm .code i{font-family: Georgia;height: 30px;line-height: 30px;font-size: 1.5em;}
+		article .wrapper .confirm .receive_code{width: 30%;height: 30px;background-color: #FFA800;cursor: pointer;vertical-align: middle;display:inline-block;}
+		article .reminds{height: 20px;line-height: 20px;width: 230px;margin: 12px auto;}
+		article .reminds i img{width: 20px;height: 20px;margin-right: 4px;}
+		article p{font-size: 12px;text-align: center;color: #acacac;}
+		article p a{color: #3772ea;}
+		article .mail{color: #F68121;cursor: pointer;}
+		#usephone{margin-bottom:30px}
+		
+	</style>
+</head>
+<body>
+
+	<header>
+		<div class="head">
+			<a onClick="javascript :history.go(-1);"><img src="../imgs/icon_back.png" class="back"></a>
+			<a href="#">注册斐讯账号</a>
+		</div>
+	</header>
+
+	<article>
+		<div id="content">
+			<div class="error">
+				<i><img src="../imgs/Error_prompt.png"></i>
+				<p>密码错误</p>
+			</div>
+			<div class="wrapper">
+				<div class="count">
+					<label for="person">用户名</label>
+					<input id="person" type="text" placeholder="用户名，4-10位">
+					<i class="r btn_delete  delete1"><img src="../imgs/btn_Eliminate.png"></i>
+				</div>
+				<div class="count">
+					<label for="mail">邮&nbsp;&nbsp;&nbsp;&nbsp;箱</label>
+					<input id="mail" type="text" placeholder="请输入邮箱">
+					<i class="r btn_delete  delete2"><img src="../imgs/btn_Eliminate.png"></i>
+				</div>
+				<div class="count">
+					<label for="pwd">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+					<input id="pwd" type="password" placeholder="6-18位数字,字母,符号组合">
+					<i class="r btn_delete  delete3"><img src="../imgs/btn_Eliminate.png"></i>
+					<i class="r hide_switch"><img src="../imgs/btn_display_switch.png"></i>
+				</div>
+				<div class="confirm">
+					<label for="msg">验证码</label>
+					<input id="msg" type="text" placeholder="验证码">
+					<i class="r btn_delete delete4"><img src="../imgs/btn_Eliminate.png"></i>
+					<button class="r receive_code">获取验证码</button>
+					<span class="r code">
+						<i>1</i>
+						<i>4</i>
+						<i>1</i>
+						<i>6</i>
+						<i>7</i>
+						<i>0</i>
+					</span>
+				</div>
+			</div>
+			<div class="reminds">
+				<i class="l"><img src="../imgs/checkbox_00.png" class="reminds_confirm"></i>
+				<p class="l">我已阅读并同意<a href="${basePath}/allapp/protocal_protect">《斐讯用户注册协议》</a></p>
+			</div>
+			<div class="log">
+				<button  class="btn-log">立即注册</button>
+			</div>
+		</div>
+		<p id="usephone"><a href="${basePath}/generalunify/toregisterphone" class="mail">使用手机注册</a></p>
+	</article>
+
+	<footer>
+		<p>上海斐讯数据通信技术有限公司 版权所有</p>
+		<p>Copyright &copy;2014-2015 PHICOMM. All Rights Reserved.</p>
+	</footer>
+
+	<div class="mask_layer">
+		<img src="../imgs/loading.gif">
+	</div>
+
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="../js/screen.js"></script>
+	<script type="text/javascript" src="../js/public.js"></script>
+	<script type="text/javascript" src="../js/registermail.js"></script>
+	<script language="javascript">
+        var context = '${basePath}';
+	</script>
+
+</body>
+</html>

@@ -1,0 +1,29 @@
+package com.fx.mobile.user.service;
+
+public class UrlProperties {
+	
+	public  String fileHttpUrl;//资源服务上传地址
+	
+	public  String codetime;
+	
+
+	public String getCodetime() {
+		return codetime;
+	}
+
+	public void setCodetime(String codetime) {
+		this.codetime = codetime;
+	}
+
+	public String getFileHttpUrl() {
+		return fileHttpUrl;
+	}
+
+	public void setFileHttpUrl(String fileHttpUrl) {
+		this.fileHttpUrl = fileHttpUrl;
+	}
+
+
+	
+
+}

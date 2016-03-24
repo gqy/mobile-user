@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+<head lang="en">
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Register_phone</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<style type="text/css">
+
+		article{margin-top: 6px;}
+		#content{margin-bottom: 120px;}
+		article .wrapper label{color: #f68121;color: #000;}
+		article .wrapper .hide_switch, article .wrapper .btn_delete{visibility: hidden;}
+		article .wrapper .delete3{margin-right: -2px;right: 10px;position: absolute;right: 90px;}
+		article .wrapper .hide_switch{margin-right: 6px;}
+		article .wrapper i img{width: 18px;height: 18px;}
+		article .log{margin-top: 16px;}
+		article .log button{background: #E0E0E0;color: #ACACAC;}
+		article .wrapper .confirm{position: relative;}
+		article .wrapper .confirm input{width: 40%;}
+		article .wrapper .confirm i{margin-right: 6px;height: 18px;height: 18px;vertical-align: middle;}
+		/*article .wrapper .btn_delete3{visibility: hidden;}*/
+		article .wrapper .confirm .receive_msg{width: 90px;height: 30px;background-color: #FFA800;cursor: pointer;vertical-align: middle;}
+		article .reminds{height: 20px;line-height: 20px;width: 230px;margin: 12px auto;}
+		article .reminds i img{width: 20px;height: 20px;margin-right: 4px;}
+		article p{font-size: 12px;text-align: center;color: #acacac;}
+		article p a{color: #3772ea;}
+		article .mail{color: #F68121;cursor: pointer;}
+	</style>
+</head>
+<body>
+
+	<header>
+		<div class="head">
+			<a href="#"><img src="../imgs/icon_back.png" class="back"></a>
+			<a href="#">注册斐讯账号</a>
+		</div>
+	</header>
+
+	<article>
+		<div id="content">
+			<div class="error">
+				<i><img src="../imgs/Error_prompt.png"></i>
+				<p>密码错误</p>
+			</div>
+			<div class="wrapper">
+				<div class="count">
+					<label for="person">手机号</label>
+					<input id="person" type="text" placeholder="请输入手机号">
+					<i class="r btn_delete delete1"><img src="../imgs/btn_Eliminate.png"></i>
+				</div>
+				<div class="count">
+					<label for="pwd">密&nbsp;&nbsp;&nbsp;&nbsp;码</label>
+					<input id="pwd" type="text" placeholder="6-18位，建议数字、字母、符号组合">
+					<i class="r btn_delete  delete2"><img src="../imgs/btn_Eliminate.png"></i>
+					<i class="r hide_switch"><img src="../imgs/btn_display_switch.png"></i>
+				</div>
+				<div class="confirm">
+					<label for="msg">短信验证码</label>
+					<input id="msg" type="text" placeholder="请输入短信验证码">
+					<i class="r btn_delete  delete3"><img src="../imgs/btn_Eliminate.png"></i>
+					<button class="r receive_msg" id="sendcode">获取验证码</button>
+					
+				</div>
+			</div>
+			<div class="reminds">
+				<i class="l"><img src="../imgs/checkbox_00.png" class="reminds_confirm"></i>
+				<p class="l">我已阅读并同意<a href="#">《斐讯用户注册协议》</a></p>
+			</div>
+			<div class="log">
+				<button class="btn-log">立即注册</button>
+			</div>
+		</div>
+		<p><a href="${basePath}/generalunify/toregistermail" class="mail">使用邮箱注册</a></p>
+	</article>
+
+	<footer>
+		<p>上海斐讯数据通讯技术有限公司 版权所有</p>
+		<p>Copyright &copy;2014-2015 PHICOMM. All Rights Reserved.</p>
+	</footer>
+
+	<div class="mask_layer">
+		<img src="../imgs/loading.gif">
+	</div>
+
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../js/registerphone.js"></script>
+	<script type="text/javascript" src="../js/public.js"></script>
+	
+	<script type="text/javascript">
+			var context = "${basePath}";
+			
+	</script>
+	
+</body>
+</html>

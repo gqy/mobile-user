@@ -1,0 +1,34 @@
+package com.fx.mobile.bean;
+
+import com.qq.connect.javabeans.qzone.UserInfoBean;
+
+public class Jsonqq {
+   private String openId;
+   private UserInfoBean userInfoBean;
+public Jsonqq(String openId, UserInfoBean userInfoBean) {
+	super();
+	this.openId = openId;
+	this.userInfoBean = userInfoBean;
+}
+public Jsonqq() {
+	super();
+	// TODO Auto-generated constructor stub
+}
+public String getOpenId() {
+	return openId;
+}
+public void setOpenId(String openId) {
+	this.openId = openId;
+}
+public UserInfoBean getUserInfoBean() {
+	return userInfoBean;
+}
+public void setUserInfoBean(UserInfoBean userInfoBean) {
+	this.userInfoBean = userInfoBean;
+}
+@Override
+public String toString() {
+	return "Jsonqq [openId=" + openId + ", userInfoBean=" + userInfoBean + "]";
+}
+   
+}

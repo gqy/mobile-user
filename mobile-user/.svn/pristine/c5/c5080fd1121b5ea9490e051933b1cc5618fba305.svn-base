@@ -1,0 +1,190 @@
+package com.fx.mobile.user.service.impl;
+
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Scope;
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Isolation;
+import org.springframework.transaction.annotation.Propagation;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.fx.mobile.model.UserOperate;
+import com.fx.mobile.user.constants.enums.UserStatusEnum;
+import com.fx.mobile.user.dao.UserOperateDao;
+import com.fx.mobile.user.service.UserOperateService;
+import com.fx.mobile.user.util.InterfaceClass;
+import com.fx.mobile.user.util.MD5;
+import com.fx.mobile.user.util.TokenProcessor;
+
+@Scope("prototype")
+@Service("operateService")
+
+public class UserOperateServiceImp implements UserOperateService {
+ 
+	public int updateUserPwd(String mobileNumber,String newPwd){
+
+		return userOperateDao.updateUserPwd(mobileNumber, newPwd);
+	}
+	@Autowired
+	public UserOperateDao userOperateDao;
+
+	public  DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+	
+	InterfaceClass interfaceClass = new InterfaceClass();
+	 public Log log = LogFactory.getLog(getClass()); 
+	/**
+	 * 用户登录（Email、用户名或PhicommId都可登录）
+	 */
+	@SuppressWarnings("static-access")
+	public String login(UserOperate user) {
+		if(user.getUserPassword().length()<=19){
+			user.setUserPassword(MD5.getMD5Passwored(user.getUserPassword()));//使用md5对密码加密
+		}
+		List<UserOperate> list = userOperateDao.longin(user);
+		if(list.size()>0){
+			return UserStatusEnum.USER_LOGIN_SUC.getCode();//登录成功
+		}
+		return UserStatusEnum.USER_LOGIN_FAIL.getCode();//失败
+	}
+
+	/**
+	 * 注册用户
+	 */
+	@SuppressWarnings("static-access")
+	@Transactional(propagation = Propagation.REQUIRED, isolation = Isolation.DEFAULT, rollbackForClassName = { "java.lang.Throwable" })
+	public String registAccount(UserOperate user) throws Exception{
+		try {
+			//查询验证用户是否已存在
+			if(!userOperateDao.isExistUser(user)){
+				//有效期
+				//String d = df.format(new Date());
+				//Date date1 = df.parse(d);
+				//Long dif = date1.getTime(); 
+				//user.setExpireseIn(String.valueOf(dif));
+
+				String s = userOperateDao.registAccount(user);//注册账户。
+				if(s.equals(UserStatusEnum.USER_REGIT_SUC.getCode())){
+//					/**调用运营系统 新增积分信息*/
+//					String markeHttpUrl= UrlProperties.getMarketHttpUrl();
+//	            	String path=markeHttpUrl+"/marketing/interfaces!registUserIntegrals.action?openId="+user.getOpenId();
+//	            	String status = interfaceClass.getMarketIntegralJson(path);//调用运用系统中的接口方法
+//					if("0".equals(status)){
+//						log.info("注册用户积分成功");
+//					}else{
+//						log.info("注册用户积分失败");
+//						throw new Exception();
+//					}
+					return UserStatusEnum.USER_REGIT_SUC.getCode();//注册成功
+				}else{
+					return UserStatusEnum.USER_REGIT_FAIL.getCode();//注册失败
+				}
+			}else{
+				return UserStatusEnum.USER_EXISTED.getCode();//用户存在
+			}
+		} catch (Exception e) {
+			log.info(e.getMessage());
+			throw e;
+			//return "005";
+		}
+	}
+	
+	/**
+	 * 根据用户输入的信息：Email、用户名或PhicommId判断此用户是否存在
+	 */
+	public String findUsers(UserOperate user) {
+		//try {
+			List<UserOperate> list = userOperateDao.findUsers(user);
+			if(list.size()>0){
+				return UserStatusEnum.USER_EXISTED.getCode();//用户已存在
+			}
+			return UserStatusEnum.USER_NOT_EXISTED.getCode();//用户不存在
+		/*} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return "005";
+		}*/
+	}
+	
+	/**
+	 * 用户注册后，需要查找用户注册的指令信息，返回给用户登录验证（这里返回用户对象）
+	 */
+	public List<UserOperate> findRegistInfoBackClien(UserOperate user) {
+		List<UserOperate> list = userOperateDao.findUsers(user);
+		return list;
+	}
+	
+	/**
+	 * 修改用户登录验证信息(用户使用用户名和密码登录后需要的操作)
+	 */
+	public String updateLoginToken(UserOperate user) {
+		try {
+			//重新生成用户访问令牌
+			String token = TokenProcessor.getInstance().generateToken("lingpai",true); 
+			user.setAccessToken(token);
+			//有效期（当前时间）
+			user.setExpireseIn(df.format(new Date()));
+			userOperateDao.updateLoginInfo(user);
+		} catch (Exception e) {
+			System.out.println(e.getMessage());
+			return UserStatusEnum.USER_UPDATETOKEN_FAIL.getCode();
+		}
+		return UserStatusEnum.USER_UPDATETOKEN_SUC.getCode();
+	}
+	
+	public List<UserOperate> getSempUser(UserOperate userOperate) {
+		return userOperateDao.getSempUser(userOperate);
+	}
+	//根据openId查询用户信息
+	public UserOperate findUserByOpenId(String openId) {
+		UserOperate uo  = new UserOperate();
+		List<UserOperate> list =userOperateDao.findUserByOpenId(openId);
+		if(list.size()>0){
+			uo = list.get(0);
+		}else{
+			uo = null;
+			return uo;
+		}
+		return uo;
+	}
+	
+	//用户头像修改上传
+	public void updateUserHeadPortraitByOpenid(String openid,String headPortraitPic) {
+		
+		userOperateDao.updateUserHeadPortraitByOpenid(openid, headPortraitPic);
+		
+	}
+	
+	public void updateUserInfo(UserOperate userOp) {
+		
+		userOperateDao.updateUserInfo(userOp);
+		
+	}
+
+	@Override
+	public boolean booleanQQLogin(String openqqId) {
+		boolean isloginok=true;
+		log.info("葛沁阳0----------------------------------------------------------------------------------------------------------------------------------------------------"+userOperateDao.finduserByOpenqq(openqqId).toString());
+		if(userOperateDao.finduserByOpenqq(openqqId).isEmpty()){
+	      
+			isloginok=false;
+		}
+		// TODO Auto-generated method stub
+		return isloginok;
+	}
+
+	@Override
+	public boolean booleanUserIsExist(String name) {
+		// TODO Auto-generated method stub
+		boolean isExist=true;
+		if(userOperateDao.findUserByName(name).isEmpty()){
+			isExist=false;
+		}
+		return isExist;
+	}
+
+}

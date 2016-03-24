@@ -1,0 +1,100 @@
+(function($) {
+
+    $(".sex").click(modifySex);
+    $(".nickname").click(modifyName);
+//     $(".birth").click(modifyBirth);
+    $('#beginTime').date();
+
+
+    function modifyName() {
+        var person_val = $("#modify_name").val(),
+        	nickName = $(".nick").text();
+        $(".wrap1, .mask_layer").show();
+        $("#modify_name").val("");
+        $("#modify_name").focus(function(event) {
+            event.preventDefault();
+//            if ($(this).val() === nickName) {
+                $(this).css("color", "#000").keyup(function() {
+                    $(".btn_delete").css("visibility", "visible").bind("click", function(event) {
+                        event.preventDefault();
+                        $("#modify_name").val("").focus();
+                        $(".btn_delete").css("visibility", "hidden");
+                    });
+                });
+//            }
+        });
+        
+        
+    }
+
+    function modifySex() {
+        $(".wrap2, .mask_layer").show();
+    }
+
+    function modifyBirth() {
+    	
+        $('#beginTime').date();
+    }
+
+    $(".confirm").click(function() {
+        var newName = $("#modify_name").val(),
+            newSex = $("input:checked").val();
+        	phicommId = $("#phicomm_id").text(),
+        	className = $(this).parent().attr("class");
+        if (className.match(/wrap1/gi)) {
+        	$.ajax({
+	            url : context + "/h5/useroperate/updatebykey",
+	            type : "post",
+	            dataType : "json",
+	            data : {
+	                phicomm_id:phicommId,
+	                key:'nickname',
+	                value: newName,
+	            },
+	            success : function(data) {
+	            	 alert(data.desc);
+	                if(data.status=='001'){
+	                    $(".nick").text(newName);
+	                    geqinyangObj.getUpdateInfo(phicommId,'nickname',newName);
+	                } 
+	            },
+	            error : function() {
+
+	            }
+        	});
+        } else if (className.match(/wrap2/gi)) {
+        	$.ajax({
+	            url : context + "/h5/useroperate/updatebykey",
+	            type : "post",
+	            dataType : "json",
+	            data : {
+	                phicomm_id:phicommId,
+	                key:'sex',
+	                value: newSex,
+	            },
+	            success : function(data) {
+	            	 alert(data.desc);
+	                if(data.status=='001'){
+	                    $(".sex_a").text(newSex);
+	                    geqinyangObj.getUpdateInfo(phicommId,'sex',newSex);
+	                } 
+	            },
+	            error : function() {
+
+	            }
+        	});
+        }
+        
+
+
+        
+        $(".wrap, .mask_layer").hide();
+    });
+
+    $(".delete").click(function() {
+        $(".wrap, .mask_layer").hide();
+    });
+
+
+
+})(jQuery);

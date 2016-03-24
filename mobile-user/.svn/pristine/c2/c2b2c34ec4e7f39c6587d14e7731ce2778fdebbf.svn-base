@@ -1,0 +1,282 @@
+package com.fx.mobile.user.h5.controller;
+
+import java.io.IOException;
+import java.text.DateFormat;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
+import java.util.Date;
+import java.util.List;
+import java.util.UUID;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.fx.mobile.bean.JSONResult;
+import com.fx.mobile.model.UserOperate;
+import com.fx.mobile.user.action.BaseAction;
+import com.fx.mobile.user.constants.enums.UserStatusEnum;
+import com.fx.mobile.user.dao.UserOperateDao;
+import com.fx.mobile.user.service.UrlProperties;
+import com.fx.mobile.user.service.UserOperateService;
+import com.fx.mobile.user.util.InterfaceClass;
+import com.fx.mobile.user.util.MD5;
+import com.fx.mobile.user.util.TokenProcessor;
+
+@Controller
+@RequestMapping(value = "/h5/useroperate")
+public class LoginController extends BaseAction{
+	
+	private static final String ERRORSTATUS = "000";
+
+
+
+	InterfaceClass interfaceClass = new InterfaceClass();
+
+
+	@Autowired
+	public  UrlProperties urlProperties;
+
+	@Autowired
+	private UserOperateService operateService;
+	@Autowired
+	public UserOperateDao userOperateDao;
+
+	
+	/**
+	 * 注册首页
+	 */
+	@RequestMapping("/toregister")
+	public ModelAndView toRegister(HttpServletResponse response) {
+		ModelAndView mav  = new ModelAndView("/muser/register_body");
+		return mav;
+	}
+	
+	/**
+	 * 注册首页
+	 */
+	@RequestMapping("/tologin")
+	public ModelAndView toLogin(HttpServletResponse response) {
+		ModelAndView mav  = new ModelAndView("/muser/login_body");
+		return mav;
+	}
+	
+
+	// 使用用户名和密码登录
+
+	@RequestMapping(value = "/login", method = { RequestMethod.POST})
+	@ResponseBody
+	public JSONResult login(@RequestBody UserOperate user) throws IOException {
+	     log.info("............start to login....................");
+		// 获取登录用户名和密码和相关信息
+	     JSONResult jsonResult = new JSONResult();
+         if(StringUtils.isBlank(user.getUserPhoneNumb() )|| StringUtils.isBlank(user.getUserPassword())){
+ 			jsonResult.setStatus(UserStatusEnum.USER_LOGIN_PARAM_ERROR.getCode());
+ 			jsonResult.setDesc(UserStatusEnum.USER_LOGIN_PARAM_ERROR.getDescription());
+ 			return jsonResult;
+         }
+		// 判断用户是否存在 根据手机号去判断查询 （手机号唯一）
+		String listResult = operateService.findUsers(user);
+		if (UserStatusEnum.USER_EXISTED.getCode().equals(listResult)) {
+			
+			String haveStr = operateService.login(user);
+			if (UserStatusEnum.USER_LOGIN_SUC.getCode().equals(haveStr)) {
+				// 根据用户登录信息查询用户信息集合
+				// ，修改用户信息-----------------------------------------strat
+				List<UserOperate> userUpdate = operateService
+						.findRegistInfoBackClien(user);
+				String updateRsult = null;
+				for (UserOperate userId : userUpdate) {// 得到用户对象
+					updateRsult = operateService.updateLoginToken(userId);// 调用方法更新登录信息（令牌、有效期）
+				}
+				if (updateRsult.equals(UserStatusEnum.USER_UPDATETOKEN_SUC
+						.getCode())) {
+					List<UserOperate> userOp = null;
+					userOp = operateService.findRegistInfoBackClien(user);// 登录成功后根据登录用户查询用户的token令牌等信息返给客户端登录
+					for (UserOperate userInfo : userOp) {
+
+						userInfo.setUserPassword("");
+						userInfo.setFigureurl(urlProperties.getFileHttpUrl()+userInfo.getFigureurl());
+						if(log.isDebugEnabled()){
+							log.debug("login user :"+userInfo);
+						}
+						jsonResult.setData(userInfo);
+
+					}
+				}
+				jsonResult.setStatus(UserStatusEnum.USER_LOGIN_SUC.getCode());
+				jsonResult.setDesc(UserStatusEnum.USER_LOGIN_SUC.getDescription());
+
+			} else {
+				log.info("密码错误");
+				jsonResult.setStatus(haveStr);
+				jsonResult.setDesc(UserStatusEnum.USER_LOGIN_PWD_ERROR.getDescription());
+			}
+		} else {
+			log.info("用户名不存在");
+			jsonResult.setStatus(listResult);
+			jsonResult.setDesc(UserStatusEnum.USER_LOGIN_USENAME_ERROR.getDescription());
+
+			// this.getResponse().sendRedirect(request.getContextPath()+"/login.jsp");
+		}
+		// sb.append("]");
+		log.info("检查用户返回json=" + jsonResult.toString());
+		return jsonResult;
+	}
+	
+
+	/**
+	 * 注册处理
+	 */
+	@RequestMapping(value = "/regist", method = { RequestMethod.POST})
+	@ResponseBody
+	public JSONResult regist( HttpServletRequest request ) throws IOException, ParseException {
+	// 获取登录用户名和密码
+	// String userName = request.getParameter("userName");
+	String userPhoneNumb = request.getParameter("userPhoneNumb");
+	String password = request.getParameter("userPassword");
+	
+	String userSrc = request.getParameter("userSrc");
+	// String Ppassword = request.getParameter("PuserPassword");
+	// 获取用户输入的验证码
+	String inputCode = request.getParameter("checkCode");
+	// 验证码有效时间
+	log.info("user regist @sessionid==:"
+			+ request.getSession().getId());
+	String codeTime = (String) request.getSession()
+			.getAttribute("codeTime");
+	JSONResult jsonResult = new JSONResult();
+	if (StringUtils.isBlank(userPhoneNumb) || StringUtils.isBlank(password)
+			|| StringUtils.isBlank(inputCode)) {
+		// this.resultMap.put("msg", "003");
+		jsonResult.setStatus(UserStatusEnum.USER_REGIT_FAIL.getCode());
+		return jsonResult;
+	}
+
+	if (codeTime != null) {// 验证码过期时间
+		String ckCode = ckCode(inputCode, codeTime, request);// 检查验证码是否有效
+		if (ckCode != UserStatusEnum.USER_REGITCODE_SUC.getCode()) {
+			jsonResult.setStatus(ckCode);
+			jsonResult.setDesc(UserStatusEnum.USER_REGITCODE_FAIL.getDescription());
+		} else {
+			try {
+				UserOperate user = prepareUserInfo(userPhoneNumb, password);
+				user.setUserType(userSrc);
+				log.info("user info @@" + user);
+				String r = operateService.registAccount(user);
+				if (r.equals(UserStatusEnum.USER_REGIT_FAIL.getCode())) {// 注册失败
+					jsonResult.setStatus(UserStatusEnum.USER_REGIT_FAIL
+							.getCode());
+					jsonResult.setDesc(UserStatusEnum.USER_REGIT_FAIL
+							.getDescription());
+					//
+				} else if (r.equals(UserStatusEnum.USER_EXISTED.getCode())) {
+					jsonResult
+							.setStatus(UserStatusEnum.USER_EXISTED.getCode());
+					jsonResult.setDesc(UserStatusEnum.USER_EXISTED
+							.getDescription());
+				} else if (r.equals(UserStatusEnum.USER_REGIT_SUC.getCode())) {// 注册成功
+					log.info("ok注册成功");
+					// 根据用户注册信息返回用户注册相关信息******(返回信息)
+					jsonResult.setStatus(UserStatusEnum.USER_REGIT_SUC.getCode());
+					jsonResult.setDesc(UserStatusEnum.USER_REGIT_SUC.getDescription());
+					jsonResult.setData(user);
+
+				}
+
+			} catch (Exception e) {
+				e.printStackTrace();
+				jsonResult.setStatus(UserStatusEnum.USER_REGIT_EXCEPTION
+						.getCode());
+				jsonResult.setDesc(UserStatusEnum.USER_REGIT_EXCEPTION
+						.getDescription());
+				return jsonResult;
+			}
+		}
+	} else {
+		jsonResult.setStatus(UserStatusEnum.USER_REGITCODE_ERROR.getCode());
+		jsonResult.setDesc(UserStatusEnum.USER_REGITCODE_ERROR.getDescription());
+	}
+	return jsonResult;
+	}
+	
+//----------------------------------------------------------------------------------------------------	
+	
+	
+	// 验证码验证分装方法=============（分装方法）
+
+		public String ckCode(String inputCode, String codeTime,HttpServletRequest request) throws IOException,
+				ParseException {
+			String result = "0";
+			DateFormat df = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+			Date date2 = df.parse(codeTime);
+			// 获取当前时间
+			String dat1 = df.format(new Date());
+			Date date1 = df.parse(dat1);
+			Long dif = date1.getTime() - date2.getTime();// 得到两者之间的时间差
+			Long day = dif / (1000);// 转换成秒
+			// 获取短信验证码 session中的
+			String code = (String) request.getSession()
+					.getAttribute("code");
+			if (code.equals(inputCode)) {
+				Long validatecode_time = Long.valueOf(urlProperties.getCodetime());
+				if (code == "" || day >validatecode_time ){// 判断是否已失效 60秒失效
+					result = UserStatusEnum.USER_REGITCODE_EXPIRED.getCode();// 失败
+					log.info("验证码过期");
+				} else {
+					result = UserStatusEnum.USER_REGITCODE_SUC.getCode();// 成功
+				}
+			} else {
+				result = UserStatusEnum.USER_REGITCODE_ERROR.getCode();// 失败，验证码错误
+			}
+			return result;
+		}
+		private UserOperate prepareUserInfo(String userPhoneNumb, String password) {
+			UserOperate user = new UserOperate();
+			user.setUserPhoneNumb(userPhoneNumb);
+			user.setUserPassword(password);
+			// 用户访问令牌
+			String token = TokenProcessor.getInstance().generateToken("lingpai",
+					true);
+			user.setAccessToken(token);
+			user.setExpireseIn(new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date()));
+			// 唯一标识
+			UUID uuid = UUID.randomUUID();
+			String uid = String.valueOf(uuid);
+			user.setOpenId(String.valueOf(uuid));
+			// 验证唯一标识的秘钥
+			String openidKey = TokenProcessor.getInstance()
+					.generateToken(uid, true);
+			user.setOpenKey(openidKey);
+			// 调用方法，查询phicommId，然后加1
+			List<UserOperate> findUserPhicommList = userOperateDao
+					.findEndPhicommId();
+			int phicommId = 100000;
+			try {
+				if (findUserPhicommList.size() > 0) {
+					for (UserOperate userOperateObj : findUserPhicommList) {
+						
+						
+						
+						phicommId = Integer.valueOf(userOperateObj.getPhicommId())
+								.intValue() + 1;// 将String转换成int型数据
+						break;
+					}
+				}
+			} catch (NumberFormatException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+			user.setPhicommId(String.valueOf(phicommId));
+			user.setUserPassword(MD5.getMD5Passwored(user.getUserPassword()));// 使用md5对密码加密
+			return user;
+		}
+}

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Personal Information</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+	<style type="text/css">
+		article h4{margin: 8px 0 8px 24px;font-style: normal;}
+		article .wrapper .border_top{border-top: #ddd solid 1px;}
+		article .wrapper .pic_icon{height: 40px;line-height: 40px;}
+		article .wrapper .pic_icon i img{width: 40px;height: 40px;}
+		article .wrapper .hide_switch, article .wrapper .btn_delete{display: none;}
+		article .wrapper i img{width: 8px;height: 8px;vertical-align: middle;}
+		article .log button{background: #FF5454;}
+		article .wrapper .red{color: red;margin-right: 4px;}
+		article .about{color: #000;text-decoration: none;}
+
+		#beginTime{width: 260px;text-align: right;}
+
+		.mask_layer{background-color: #000;opacity: 0.4;display: none;position: fixed;top: 0;left: 0;bottom: 0;right: 0;}
+		.wrap{position: absolute;top: 100px;left: 50%;margin-left: -140px;background-color: #fff;z-index: 1000;color: #fff;width: 280px;display: none;}
+		.wrap p{background-color: #000;padding-top: 8px;padding-bottom: 8px;text-align: center;}
+		.wrap .input_area input{width: 230px;color: #ccc;}
+		.wrap i img{width: 18px;height: 18px;vertical-align: middle;}
+		.wrap button{background-color: #000;color: #fff;width: 136px;height: 36px;border-radius: 0;}
+
+		.wrap1 .input_area{border: 1px solid #000;margin: 12px;height: 32px;line-height: 32px;}
+		.wrap1 .input_area input{height: 26px;vertical-align: middle;}
+
+		.wrap2{display: none;}
+		.wrap2 .input_area div{overflow: hidden;background-color: #F2F2F2;border-bottom: 1px solid #ccc;height: 30px;line-height: 30px;padding: 8px;}
+		.wrap2 .input_area label{color: #000;margin-left: 10px;width: 200px;}
+		.wrap2 .input_area input{margin-top: 10px;margin-right: 10px;width: 13px;}
+
+	</style>
+</head>
+<body>
+	<header>
+		<div class="head">
+			<a href="#"><img src="../imgs/icon_back.png" class="back"></a>
+			<a href="#">个人信息</a>
+		</div>
+	</header>
+
+	<article>
+		<div id="content">
+			<h4 class="tips">账号</h4>
+			<div class="wrapper">
+				<div class="pwd">
+					<i>斐讯ID</i>
+					<i class="r tips" id="phicomm_id">${phicomm_id.phicommId}</i>
+				</div>
+			</div>
+
+			<h4 class="tips">基本资料</h4>
+			<div class="wrapper">
+				<div class="count pic_icon">
+					<i><img src="../imgs/Head_portrait.png"></i>
+					<i class="r tips reset">修改头像</i>
+				</div>
+				<div class="pwd nickname">
+					<i>昵称</i>
+					<i class="r tips nick"> <#if ((phicomm_id.nickname)?default("")) == "">
+															设置
+															<#else>
+															 ${phicomm_id.nickname}
+															</#if></i>
+				</div>
+				<div class="pwd border_top sex">
+					<i>性别</i>
+					<i class="r tips reset sex_a"><#if ((phicomm_id.sex)?default("")) == "">
+															设置
+															<#else>
+															 ${phicomm_id.sex}
+															</#if></i>
+				</div>
+				<div class="pwd border_top birth">
+					<i>生日</i>
+					<i class="r tips reset birth_a kbtn" id="beginTime"><#if ((phicomm_id.birthday)?default("")) == "">
+															设置
+															<#else>
+															 ${phicomm_id.birthday}
+															</#if></i>
+				</div>
+			</div>
+            <div id="datePlugin"></div>
+			<h4 class="tips">安全设置</h4>
+			<div class="wrapper">
+				<div class="count">
+					<i>安全手机</i>
+					<i class="r"><img src="../imgs/round_dot.png"></i>
+					<i class="r tips red">为了您的安全请立即绑定</i>
+				</div>
+				<div class="pwd">
+					<i>密码</i>
+					<i class="r tips reset">修改</i>
+				</div>
+				<div class="pwd border_top">
+					<i>第三方账号绑定</i>
+					<i class="r tips reset">立即绑定</i>
+				</div>
+				<div class="pwd border_top">
+					<i>安全邮箱</i>
+					<i class="r tips reset">立即绑定</i>
+				</div>
+			</div>
+
+			<h4 class="tips">其他信息</h4>
+			<div class="wrapper">
+				<div class="pwd">
+					<a href="about.html" class="about"><i>关于</i></a>
+				</div>
+			</div>
+
+			<div class="log">
+				<button>退出登录</button>
+			</div>
+		</div>
+	</article>
+
+	<div class="wrap wrap1">
+		<p>修改昵称</p>
+		<div class="input_area">
+			<input type="text" value="请输入姓名" id="modify_name">
+			<i class="r btn_delete"><img src="../imgs/btn_Eliminate.png"></i>
+		</div>
+		<button type="button" class="r delete">取消</button>
+		<button type="button" class="l confirm">确定</button>
+	</div>
+
+	<div class="wrap wrap2">
+		<p>修改昵称</p>
+		<div class="input_area">
+			<div>
+				<label class="l" for="boy">男</label>
+				<input class="r" type="radio" name="radio" checked="checked" id="boy" value="男">
+			</div>
+			<div>
+				<label class="l" for="girl">女</label>
+				<input class="r" type="radio" name="radio" id="girl" value="女">
+			</div> 
+		</div>
+		<button type="button" class="r delete">取消</button>
+		<button type="button" class="l confirm">确定</button>
+	</div>
+
+	<div class="mask_layer">
+	</div>
+
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../js/date.js" ></script>
+	<script type="text/javascript" src="../js/iscroll.js" ></script>
+	<script>
+		var context = "${basePath}";
+	</script>
+	<script type="text/javascript" src="../js/person_info.js"></script>
+</body>
+</html>

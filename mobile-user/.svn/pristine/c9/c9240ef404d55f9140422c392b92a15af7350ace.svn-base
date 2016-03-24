@@ -1,0 +1,53 @@
+<#if page.totalPage gt 1>
+
+<style>
+.fmu-pagination { margin: 10px 0; font-size: 14px; text-align: center;}
+.fmu-pagination-anchor { display: inline-block; width: 59px; margin: 0 5px; border: 1px solid #ccc; border-radius: 2px; color: #000; line-height: 29px; outline: 0; }
+.fmu-page-first, .fmu-page-end { width: 42px; margin: 0; }
+.fmu-page-gray { background-color: #fdfdfd; color: #b4b4b4; }
+.fmu-pagination-select { height: 29px; line-height: 29px; background-color: #fff; border-radius: 2px; outline: 0; }
+</style>
+
+<div class="fmu-pagination">
+	<#if url?contains("?")>
+		<#assign actionUrl = url + "&pageNum=">
+	<#else>
+		<#assign actionUrl = url + "?pageNum=">
+	</#if>
+	
+	<#if page.pageNum == 1>
+<!--     	<a class="fmu-pagination-anchor fmu-page-first fmu-page-gray" href="javascript:void(0);">首页</a> -->
+    	<a class="fmu-pagination-anchor fmu-page-gray" href="javascript:void(0);">上一页</a>
+    <#else>
+<!--     	<a class="fmu-pagination-anchor fmu-page-first" href="${actionUrl}1">首页</a> -->
+    	<a class="fmu-pagination-anchor" href="${actionUrl}${page.pageNum - 1}">上一页</a>
+   	</#if>
+    <select class="fmu-pagination-select J_fmu_page_select">
+	   	<#list 1..page.totalPage as p>
+	   		<#if p == page.pageNum>
+		        <option value="${actionUrl}${p}" selected="selected">第${p}页</option>
+	   		<#else>
+		        <option value="${actionUrl}${p}">第${p}页</option>
+			</#if>
+		</#list>
+    </select>
+    <#if page.pageNum == page.totalPage>
+	    <a class="fmu-pagination-anchor fmu-page-gray" href="javascript:void(0);">下一页</a>
+<!-- 	    <a class="fmu-pagination-anchor fmu-page-end fmu-page-gray" href="javascript:void(0);">末页</a> -->
+   	<#else>
+	    <a class="fmu-pagination-anchor" href="${actionUrl}${page.pageNum + 1}">下一页</a>
+<!-- 	    <a class="fmu-pagination-anchor fmu-page-end" href="${actionUrl}${page.totalPage}">末页</a> -->
+   	</#if>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        [].forEach.call(document.querySelectorAll(".J_fmu_page_select"), function (el, idx) {
+            el.addEventListener("change", function () {
+                window.location.href = this.value;
+            }, false);
+        });
+    }, false);
+</script>
+
+</#if>

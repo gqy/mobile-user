@@ -1,0 +1,89 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+    <title>Hello APP</title>
+    <style>
+        html,body{height:100%;background-color: #eee;margin: 0;}
+        .h10 {height: 10px;}
+
+        /* 头部导航样式 */
+        .header {position: relative;height: 50px;line-height: 50px;background-color: #3993cf;}
+        .header .left  {position: absolute;left: 0;height: 50px;}
+        .header .left  .logoleft {height: 20px;vertical-align: top; margin-top: 15px;}
+        .header .left  .logo {height: 46px; vertical-align: top; margin-top: 2px; margin-left: -10px;}
+        .header .left  .title {font-size: 20px; color: #fff; margin-left: -10px;padding-right: 10px;}
+       
+        .header .right {position: absolute;right: 0;height: 50px;}
+        .header .right img {height: 30px;padding: 10px;}  
+		.header .right  .title {font-size: 20px; color: #fff; margin-legt: -10px;padding-right: 10px;}
+
+        /* framegroup 头部样式 */
+        .navbar {display: -webkit-box; -webkit-box-orient: horizontal; position: relative; height: 50px; box-sizing: border-box; background: #3F4147; border-bottom: 1px solid #e0e0e0; }
+        .navbar-item {display: block; -webkit-box-flex: 1; width: 100%; line-height: 50px; /*color: rgb(148,127,119);*/ font-size: 18px; text-align: center;color: #7E7E7E; }
+        .navbar-item-hov {color: #fff; }
+        .navbar-item-active {color: #fff; }
+        #navmark {position: absolute; left: 0px; bottom: 0px; -webkit-transition: 300ms; text-align: center; background-color: #3993CF;height: 3px;}
+
+        /* 悬浮样式 */
+        .itemhover {background-color: #eee !important;}
+        .headerhover {background-color: #36A8DC;}
+        h3{text-align: center;}
+        h4{margin: 10px;}
+        article{margin: 2px;}
+        article p{margin: 0 8px 0 10px;font-size: 14px;text-indent: 2em;line-height: 24px;}
+        article p a{color: #3993CF;}
+    </style>
+    <link rel="stylesheet" type="text/css" href="css/api.css" />
+    <link rel="stylesheet" type="text/css" href="css/common.css" />
+</head>
+<body>
+  
+    <h3>PHICOMM 网上隐私声明</h3>
+    <article>
+        <h4>范围</h4>
+        <P>本声明适应于全球所有 PHICOMM Web 站点。</P>
+        <h4>个人信息</h4>
+        <p>一般情况下，您无须提供您的姓名或其它个人信息即可访问我们的因特网站点。但有时我们可能需要您提供一些信息，例如为了处理订单、与您联系、提供预订服务或处理工作应聘。我们可能需要这些信息完成一项交易/事务的处理或提供更好的服务。</p>
+        <h4>用途</h4>
+        <p>供我们或其他相关方使用，以满足您的请求。用于与您保持联系，以开展客户满意度调查、市场研究或某些事务的处理。供 PHICOMM 和适当机构用于市场营销目的（如果您许可）。用于不记名的数据分析（例如点击流量数据）。帮助发展我们的业务关系（如果您代表 PHICOMM 业务合作伙伴或供应商）。</p>
+        <h4>您的选择权</h4>
+        <p>当我们向您收集信息时，您可以告诉我们不要将这些信息用于其它的市场营销活动，我们会尊重您的意愿。您也可以在浏览器中关闭 cookie。</p>
+        <h4>重要信息</h4>
+        <p>如果您在 PHICOMM 记录中的个人信息有误，需要更正的话，请回复发件人或将邮件发送至 <a href="mailto:accreq@feixun.com .cn">accreq@feixun.com .cn</a>。要了解 PHICOMM 的完整声明，请参阅PHICOMM 隐私准则。</p>
+        <h4>联系我们</h4>
+        <div>
+            <p>如有任何关于本声明或 PHICOMM 信息处理方式的问题，可以将意见发送至： </p>
+            <p>中国上海松江区思贤路3666号 201616</p>
+            <p>或发送邮件至：<a href="mailto:privcy@feixun.com .cn">privcy@feixun.com .cn</a></p>
+        </div>
+    </article>
+
+
+</body>
+<script type="text/javascript" src="script/api.js"></script>
+<script type="text/javascript">
+    function goback () {
+        api.closeWin({name:'agreement'});
+    }
+
+    apiready = function() {
+    apiready = function() {
+        var header = $api.byId('topbar');
+        $api.fixIos7Bar(header);
+        var headerHeight = $api.byId('topbar').offsetHeight;
+        
+        api.openFrame ({
+            name: 'agreement_body',
+            url: 'http://m.ele.me/agreement',
+            rect:{
+                x:0,
+                y:headerHeight,
+                w:'auto',
+                h:'auto'
+            }
+        });
+    };
+</script>
+</html>

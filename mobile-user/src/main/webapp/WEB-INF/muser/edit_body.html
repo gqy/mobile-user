@@ -1,0 +1,175 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+<title>用户信息修改</title> <#include "../include/resources.html">
+<style type="text/css">
+html {
+	height: 100%;
+}
+
+body {
+	height: 100%;
+	background: #f0f0f0;
+}
+
+/* 头部导航样式 */
+.header {
+	position: relative;
+	height: 50px;
+	line-height: 50px;
+	background-color: #3993cf;
+}
+
+.header .left {
+	position: absolute;
+	left: 0;
+	height: 50px;
+}
+
+.header .left  .logoleft {
+	height: 20px;
+	vertical-align: top;
+	margin-top: 15px;
+}
+
+.header .left  .logo {
+	height: 46px;
+	vertical-align: top;
+	margin-top: 2px;
+	margin-left: -10px;
+}
+
+.header .left  .title {
+	font-size: 20px;
+	color: #fff;
+	margin-left: -10px;
+	padding-right: 10px;
+}
+
+.header .right {
+	position: absolute;
+	right: 0;
+	height: 50px;
+	color: #fff;
+	margin-right: 10px;
+}
+
+.header .right img {
+	height: 30px;
+	padding: 10px;
+}
+</style>
+</head>
+<body>
+	<div class="header" id="topbar">
+		<div class="left" tapmode="headerhover" onclick="goback()">
+			<img src="${mstaticRoot}/mobile/image/abc_ic_ab_back_holo_dark.png"
+				alt="" class="logoleft"><img
+				src="${mstaticRoot}/mobile/image/m_drawer_icon_home_selected.png"
+				alt="" class="logo"> <span class="title">账号设置</span>
+		</div>
+	</div>
+
+	<div class="divider"></div>
+	<br>
+	<form class="form-horizontal">
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-2 control-label">姓名</label>
+			<div class="col-sm-8">
+				<input type="text" class="form-control" id="inputEmail3"
+					placeholder="姓名">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputPassword3" class="col-sm-2 control-label">性别</label>
+		
+			<div class="col-sm-8">
+				<select>
+					<option>女</option>
+					<option>男</option>
+				</select>
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-2 control-label">生日</label>
+			<div class="col-sm-8">
+				<input type="email" class="form-control" id="inputEmail3"
+					placeholder="Email">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputPassword3" class="col-sm-2 control-label">昵称</label>
+			<div class="col-sm-8">
+				<input type="password" class="form-control" id="inputPassword3"
+					placeholder="Password">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputEmail3" class="col-sm-2 control-label">城市</label>
+			<div class="col-sm-8">
+				<input type="email" class="form-control" id="inputEmail3"
+					placeholder="Email">
+			</div>
+		</div>
+		<div class="form-group">
+			<label for="inputPassword3" class="col-sm-2 control-label">手机</label>
+			<div class="col-sm-8">
+				<input type="password" class="form-control" id="inputPassword3"
+					placeholder="Password">
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<div class="checkbox">
+					<label> <input type="checkbox"> Remember me
+					</label>
+				</div>
+			</div>
+		</div>
+		<div class="form-group">
+			<div class="col-sm-offset-2 col-sm-10">
+				<button type="submit" class="btn btn-default">Sign in</button>
+			</div>
+		</div>
+	</form>
+	<div class="loginmore">
+		<span class="phone">其他登陆方式</span>
+	</div>
+	<div class="" id="bottomdivider"></div>
+
+</body>
+<script type="text/javascript">
+	function doregedit() {
+		$("#form_register").submit();
+	}
+	function sendMsgCode() {
+		$.ajax({
+			type : 'POST',
+			contentType : 'application/json',
+			url : "${basePath}/h5/useroperate/login",
+			dataType : "json",
+			data : regiditformToJSON(),
+			success : function(data, textStatus, jqXHR) {
+				console.log(data + "----textStatus" + textStatus);
+
+			},
+			error : function(jqXHR, textStatus, errorThrown) {
+
+			}
+		});
+	}
+
+	function regiditformToJSON() {
+		var phonenum = $.trim($('#ipt_userphone').val());
+		return JSON.stringify({
+			"userPhoneNumb" : phonenum == "" ? null : phonenum,
+			"userPassword" : $('#ipt_pwd').val(),
+			"userPassword" : $('#validateCode').val(),
+
+		});
+	}
+</script>
+</html>

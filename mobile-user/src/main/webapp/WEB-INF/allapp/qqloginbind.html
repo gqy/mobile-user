@@ -1,0 +1,95 @@
+<!doctype html>
+
+<html>
+<head>
+    <meta charset="UTF-8">
+  <meta name="viewport"
+	content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0" />
+    <title>请绑定账号</title>
+  
+<link rel="stylesheet" type="text/css" href="${mstaticRoot}/mui/mui.css" />
+<script type="text/javascript" src="${mstaticRoot}/mui/mui.min.js"></script>
+<script type="text/javascript" src="${mstaticRoot}/mobile/js/jquery.min.js"></script>
+
+</head>
+<body>
+<#if ((qqinfo.openId)?default("")) == "">
+数据丢失，请勿刷新页面，可以回退或重新登录
+<#else>
+本地
+绑定页面(请勿刷新该页面)
+<div class="mui-content">
+			<div class="mui-card">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">已有账号？绑定原有账号</a>
+						<div class="mui-collapse-content">
+						    <form class="mui-input-group">
+								<div class="mui-input-row">
+									<label>用户名</label>
+									<input id="account" type="text" placeholder="请输入原有账号用户名">
+								</div>
+								<div class="mui-input-row">
+									<label>密码</label>
+									<input id="password" type="password" class="mui-input-clear" placeholder="请输入原有账号密码">
+								</div>
+		                        <div>
+		                            <input id="openid" type="hidden" value="${qqinfo.openId}">
+		                            <input id="userinfobean" type="hidden" value="${qqinfo.userInfoBean}">
+		                        </div>
+								<div class="mui-button-row">
+									<button id="bind" class="mui-btn mui-btn-primary" type="button">绑定</button>&nbsp;&nbsp;
+									<button  class="mui-btn mui-btn-primary" type="button" onclick="return false;">取消</button>
+								</div>
+							</form>
+						</div>
+					</li>
+				</ul>
+			</div>
+			<div class="mui-card">
+				<ul class="mui-table-view">
+					<li class="mui-table-view-cell mui-collapse">
+						<a class="mui-navigate-right" href="#">不高兴绑定或者没有账号？</a>
+						<div class="mui-collapse-content">
+						    <div class="mui-button-row">
+						        <button type="button" class="mui-btn mui-btn-primary mui-btn-block">直接生成新账号登录</button>
+						    <div class="mui-button-row">
+						</div>
+					</li>
+				</ul>
+			</div>
+</div>
+${qqinfo.openId}
+${qqinfo.userInfoBean}
+</#if>
+
+</body>
+	<script type="text/javascript" charset="utf-8">
+	
+	$("#bind").click(function(){
+		$.ajax({
+			type: 'POST',
+			contentType: 'application/json',
+			url: "${basePath}/h5/useroperate/bind",
+			dataType: "json",
+			data:  loginformToJSON(),
+			success: function(data, textStatus, jqXHR){
+			    alert(data.desc)
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				alert('出现未知异常，请重试')
+			}
+		});
+	});
+	 function loginformToJSON() {
+		 	var phonenum = $.trim($('#account').val());
+		 	return JSON.stringify({
+		 		"userPhoneNumb": phonenum == "" ? null : phonenum, 
+		 		"userPassword": $('#password').val(), 
+                "openqq":$('#openid').val(),
+                "openqqinfo":$('#userinfobean').val()
+		 		});
+		 }
+	
+	</script>
+</html>

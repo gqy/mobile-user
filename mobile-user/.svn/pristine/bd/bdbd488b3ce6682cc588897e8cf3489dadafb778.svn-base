@@ -1,0 +1,95 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+<title>登录</title>
+
+<style>
+
+</style>
+<#include "../include/resources.html">
+<link rel="stylesheet" type="text/css" href="${mstaticRoot}/mobile/css/reglogin.css" />
+</head>
+<body>
+	<div class="header" id="topbar">
+        <div class="left" tapmode="headerhover" onclick="goback()">
+            <img src="${mstaticRoot}/mobile/image/abc_ic_ab_back_holo_dark.png" alt="" class="logoleft"><img src="${mstaticRoot}/mobile/image/m_drawer_icon_home_selected.png" alt="" class="logo">
+            <span class="title">斐讯账号</span>
+        </div>
+       <div class="right" tapmode="headerhover" ><button type="button" class="btn btn-default" style="background-color: #3993cf;margin-top: 5px" onclick="toregidit()"><span>注册</span></button></div>
+    </div>
+
+	<div class="divider"></div>
+	<form id="form_login" action="">
+		<div class="item email"><input type="text" placeholder="手机号" id="ipt_userphone" name="userPhoneNumb"></div>
+		<div class="item passwd"><input type="password" placeholder="密码" id="ipt_pwd" name="userPassword">
+		</div>
+		
+		<div class="btn" onclick="dologin()" tapmode="submit-hover"><span type="submit">登 录</span></div>
+		
+	</form>
+	<div class="loginmore">
+		<span class="phone">忘记密码？</span>
+	</div>
+	<div class="" id="bottomdivider"></div>
+	<div class="bottom">
+		<div class="thirdcompy">
+			<div class="thirdinfo">第三方登录</div>
+			
+			<div class="share">
+				<div class="shareab">
+					<div class="sharelogo weixin"><img src="${mstaticRoot}/mobile/image/weixin_iner_icon.png" alt="" class=""></div>
+					<div class="title">微信</div>
+				</div>
+				
+				<div class="shareab">
+					<div class="sharelogo weibo"><img src="${mstaticRoot}/mobile/image/weibo_iner_icon.png" alt="" class=""></div>
+					<div class="title">微博</div>
+				</div>
+
+				<div class="shareab">
+					<div class="sharelogo renren"><img src="${mstaticRoot}/mobile/image/renren_iner_icon.png" alt="" class=""></div>
+					<div class="title">人人</div>
+				</div>
+
+			</div>
+			
+		</div>
+		
+	</div>
+</body>
+
+<script type="text/javascript">
+
+ function toregidit(){
+	 window.location.href="${basePath}/h5/useroperate/toregister";
+ }
+ function dologin(){
+
+		$.ajax({
+			type: 'POST',
+			contentType: 'application/json',
+			url: "${basePath}/h5/useroperate/login",
+			dataType: "json",
+			data:  loginformToJSON(),
+			success: function(data, textStatus, jqXHR){
+				console.log(data+"----textStatus"+textStatus);
+		
+			},
+			error: function(jqXHR, textStatus, errorThrown){
+				
+			}
+		});
+ }
+//Helper function to serialize all the form fields into a JSON string
+ function loginformToJSON() {
+ 	var phonenum = $.trim($('#ipt_userphone').val());
+ 	return JSON.stringify({
+ 		"userPhoneNumb": phonenum == "" ? null : phonenum, 
+ 		"userPassword": $('#ipt_pwd').val(), 
+
+ 		});
+ }
+</script>
+</html>

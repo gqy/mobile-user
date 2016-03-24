@@ -1,0 +1,19 @@
+<script src="${staticPath}/common/libs/headjs/head.load.min.js"></script>
+<script>
+(function () {
+    var callback = (typeof (jsloadedcallback) !== "undefined") ? jsloadedcallback : function () { };
+    var jsListArr = ["${staticPath}/common/libs/fmu/js/vendors/jquery/jquery.min.js"];
+
+    <#if pageConfig?exists && pageConfig.jsPath?exists>
+        <#list pageConfig.jsPath?split(',') as js>
+            <#if js?trim?length gt 0>
+                jsListArr.push("${staticPath}${js?trim}?${pageTime}");
+            </#if>
+        </#list>
+    </#if>
+
+    setTimeout(function () { head.load(jsListArr, callback); }, 10);
+}());
+</script>
+</body>
+</html>

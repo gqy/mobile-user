@@ -1,0 +1,14 @@
+#Created by JInto - www.guh-software.de
+#Tue Sep 30 16:07:14 CST 2014
+#redis.host=192.168.74.12
+redis.host=172.17.191.59
+redis.port=6379
+#redis.pass=foobared
+redis.maxActive=1024  
+redis.maxIdle=200  
+redis.maxWait=1000  
+redis.testOnBorrow=true  
+redis.testOnReturn=true  
+
+#redis2.ip=192.168.100.107
+#redis2.port=6379 

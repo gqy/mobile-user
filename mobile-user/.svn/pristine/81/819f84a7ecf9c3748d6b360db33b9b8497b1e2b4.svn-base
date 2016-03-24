@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:context="http://www.springframework.org/schema/context" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:util="http://www.springframework.org/schema/util" xmlns:task="http://www.springframework.org/schema/task"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop-3.2.xsd
+		http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc-3.2.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-3.2.xsd
+		http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-3.2.xsd
+		http://www.springframework.org/schema/util http://www.springframework.org/schema/util/spring-util-3.2.xsd
+		http://www.springframework.org/schema/tx http://www.springframework.org/schema/tx/spring-tx-3.2.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-3.2.xsd">
+	
+	<!-- 是一种简写形式，会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,
+	          是spring MVC为@Controllers分发请求所必须的。 -->
+	<mvc:annotation-driven />
+
+<!-- 针对url进行配置 -->
+	<mvc:interceptors>  
+		<mvc:interceptor>
+			<mvc:mapping path="/unify/**" />
+			<bean class="com.fx.mobile.user.intercepters.LoginInterceptor"/>  
+	    </mvc:interceptor>	 
+	
+	</mvc:interceptors>
+	
+    <context:component-scan base-package="com.fx.mobile.user.action,com.fx.mobile.user.h5.controller,com.fx.mobile.user.intercepters">
+		<context:include-filter type="annotation" expression="org.springframework.stereotype.Controller" />
+    </context:component-scan>
+    
+    	<!-- 容器默认的DefaultServletHandler处理 所有静态内容与无RequestMapping处理的URL-->	
+	<mvc:default-servlet-handler/>
+	
+	<!-- 定义无需Controller的url<->view直接映射 -->
+	<mvc:view-controller path="/" view-name="redirect:/health"/>
+	
+
+	<!--惯例: 依赖控制器 类名字的惯例，将URI映射到控制器   消除类级别的请求映射
+	<bean class="org.springframework.web.servlet.mvc.support.ControllerClassNameHandlerMapping"/>
+	   -->        
+<!-- 	<bean   class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+	       <property name="webBindingInitializer">
+	           <bean class="com.fx.mobile.spring.web.AppBindingInitializer"/>
+	       </property> 
+	</bean>	-->
+
+	<bean class="org.springframework.web.servlet.mvc.annotation.AnnotationMethodHandlerAdapter">
+		<property name="messageConverters">
+			<util:list id="beanList">
+				<!-- <bean id="stringHttpMessageConverter" class="org.springframework.http.converter.StringHttpMessageConverter" /> <bean 
+					id="formHttpMessageConverter" class="org.springframework.http.converter.FormHttpMessageConverter" /> <bean id="byteArrayMessageConverter" 
+					class="org.springframework.http.converter.ByteArrayHttpMessageConverter" /> <bean id="bufferedImageHttpMessageConverter" 
+					class="org.springframework.http.converter.BufferedImageHttpMessageConverter" /> -->
+			 	<bean id="jacksonMessageConverter" class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter" /> 
+			</util:list>
+		</property>
+
+	</bean>
+
+
+	<bean id="viewResolver" class="org.springframework.web.servlet.view.freemarker.FreeMarkerViewResolver">
+		<property name="requestContextAttribute" value="rc" />
+		<property name="cache">
+			<value>true</value>
+		</property>
+		<property name="suffix">
+			<value>.html</value>
+		</property>
+				<!-- 自定义FreeMarkerView，用来定义项目的全局路径 -->
+		<property name="viewClass" value="com.fx.mobile.core.freemarker.BasePathFreeMarkerView" ></property>
+		<property name="prefix">
+			<value>/WEB-INF/</value> 
+		</property>
+		<property name="exposeSpringMacroHelpers" value="true" />
+		<property name="contentType">
+			<value>text/html; charset=UTF-8</value>
+		</property>
+		<property name="exposeRequestAttributes" value="true"></property>
+		<property name="exposeSessionAttributes" value="true"></property>
+		<property name="allowSessionOverride" value="true"></property>
+		<property name="allowRequestOverride" value="true"></property>
+	</bean>
+
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver">
+		<!-- set the max upload size100MB -->
+		<property name="maxUploadSize">
+			<value>104857600</value>
+		</property>
+		<property name="maxInMemorySize">
+			<value>4096</value>
+		</property>
+	</bean>
+	
+	<context:property-placeholder location="classpath:user.properties" ignore-unresolvable="true"/>
+
+	<bean id="freemarkerConfig" class="org.springframework.web.servlet.view.freemarker.FreeMarkerConfigurer">
+		<property name="templateLoaderPath">
+			<value>/</value>
+		</property>
+		<property name="freemarkerSettings">
+			<props>
+				<prop key="locale">zh_CN</prop>
+				<prop key="defaultEncoding">UTF-8</prop>
+				<prop key="date_format">yyyy-MM-dd</prop>
+				<prop key="time_format">HH:mm:ss</prop>
+				<prop key="datetime_format">yyyy-MM-dd HH:mm:ss</prop>
+				<prop key="number_format">0.################</prop>
+				<prop key="boolean_format">true,false</prop>
+				<prop key="auto_import">"/WEB-INF/spring.ftl" as sp, "/WEB-INF/utils.ftl" as utils</prop>
+			</props>
+		</property>
+		<!-- 全局变量部分 -->
+		<property name="freemarkerVariables">
+			<map>
+				<entry key="mstaticRoot" value="${mobile.static.path}" />
+				<entry key="title" value="${title}" />
+			</map>
+		</property>
+
+	</bean>
+	
+	
+		<!-- 全局异常配置  start -->
+<!-- 	 <bean id="exceptionResolver" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+	 <property name="exceptionMappings"> 
+     	<props> 
+          <prop key="com.fanli.mall.framework.exception.GlobalException">errors/errorpage</prop>
+		  <prop key="java.lang.Exception">errors/500</prop>
+       </props> 
+   	 </property>
+   	 <property name="readerExceptionXmlResolver" ref="readerExceptionXmlResolver"></property>
+   	 
+	</bean> -->
+
+
+</beans>

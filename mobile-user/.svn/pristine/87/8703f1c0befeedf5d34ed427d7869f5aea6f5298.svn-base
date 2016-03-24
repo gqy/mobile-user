@@ -1,0 +1,38 @@
+package com.fx.mobile.user.h5.controller;
+
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+@Controller
+@RequestMapping(value = "/h5/mui/useroperate")
+public class MuiController {
+	/**
+	 * 注册首页
+	 */
+	@RequestMapping("/toregister")
+	public ModelAndView toRegister(HttpServletResponse response) {
+		ModelAndView mav  = new ModelAndView("/mui/register_body");
+		return mav;
+	}
+	
+	/**
+	 * 登录首页
+	 */
+	@RequestMapping("/tologin")
+	public ModelAndView toLogin(HttpServletResponse response) {
+		ModelAndView mav  = new ModelAndView("/mui/login_body");
+		return mav;
+	}
+	/**
+	 * 编辑首页
+	 */
+	@RequestMapping("/toedit")
+	public ModelAndView toEdit(HttpServletResponse response) {
+		ModelAndView mav  = new ModelAndView("/mui/edit_body");
+		return mav;
+	}
+	
+}

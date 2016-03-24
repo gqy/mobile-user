@@ -1,0 +1,17 @@
+<!DOCTYPE HTML> 
+<html> 
+    <head>
+        <title>PhoneGap</title>
+        <script type="text/javascript" charset="utf-8" src="cordova.js"></script>
+       <script type="text/javascript"> 
+         // 
+       function toast() {        
+          navigator.toast.showlong("esdrgetdg下完本次為 去哦無情");
+          }
+       </script>
+    </head> 
+    <body> 
+        <h1>Hello World</h1>  
+        <p><a href="#" onclick="toast()">Toast</a></p>    
+    </body>
+ </html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>三方微信登录</title>
+ 	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+	<style type="text/css">
+		article h4{margin: 8px 0 8px 24px;font-style: normal;}
+		article .wrapper .border_top{border-top: #ddd solid 1px;}
+		article .wrapper .pic_icon{height: 40px;line-height: 40px;}
+		article .wrapper .pic_icon i img{width: 40px;height: 40px;}
+		article .wrapper .hide_switch, article .wrapper .btn_delete{display: none;}
+		article .wrapper i img{width: 8px;height: 8px;vertical-align: middle;}
+		article .log button{background: #FF5454;}
+		article .wrapper .red{color: red;margin-right: 4px;}
+		article .about{color: #000;text-decoration: none;}
+
+		#beginTime{text-align: right;}
+
+		.mask_layer{background-color: #000;opacity: 0.4;display: none;position: fixed;top: 0;left: 0;bottom: 0;right: 0;}
+		.wrap{position: absolute;top: 100px;left: 50%;margin-left: -140px;background-color: #fff;z-index: 1000;color: #000;width: 280px;display: none;border-radius: 8px;}
+		.wrap p{padding-top: 12px;padding-bottom: 12px;text-align: center;}
+		.wrap i img{width: 18px;height: 18px;vertical-align: middle;}
+		.wrap button{background-color: #fff;width: 136px;padding-top: 12px;padding-bottom: 12px;}
+		.wrap button.confirm{border-radius: 0 0 0 8px;}
+		.wrap button.delete{border-radius: 0 0 8px 0;}
+		.wrap button:focus{background-color: #E7E8EA;}
+		.wrap .input_area{border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;}
+
+		.wrap1 .input_area{padding: 12px;padding-left: 26px;height: 32px;line-height: 32px;}
+		.wrap1 .input_area input{width: 220px;color: #ccc;height: 26px;vertical-align: middle;border-bottom: 1px solid #333;}
+
+		.wrap2{display: none;}
+		.wrap2 .input_area .gender_boy{border-bottom: 1px solid #ccc;padding-bottom: 10px;}
+		.wrap2 .input_area div{overflow: hidden;height: 30px;line-height: 30px;margin: 8px;}
+		.wrap2 .input_area label{color: #000;margin-left: 10px;width: 200px;}
+		.wrap2 .input_area input{margin-top: 10px;margin-right: 10px;width: 13px;}
+
+	</style>
+</head>
+<body>
+<p id="tishi">正在登陆，请稍等..........</p>
+
+<div class="wrap wrap3">
+		<p>错误提示</p>
+		<div class="input_area">
+			<p class="info"></p>
+		</div>
+		<button type="button" class="r delete">取消</button>
+		<button type="button" class="l confirm">确定</button>
+	   	</div>	
+			<div class="mask_layer">
+		</div>
+</body>
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>	
+	  <script type="text/javascript">
+	
+	   var a='${message}';
+	   var b='${status}';
+	   window.onload=function(){
+		  
+		   if(b=="001"){
+				geqinyangObj.loginSuccess(a);	
+		   }else{
+			   $(".wrap3, .mask_layer").show();
+	       	   $(".info").text(JSON.parse(a).desc);
+		   }
+		  
+	   };
+	   $(".delete").click(function() {
+	        $(".wrap, .mask_layer").hide();
+	        window.location.href="${basePath}/generalunify/tologin";
+	    });
+	   $(".confirm").click(function() {
+	        $(".wrap, .mask_layer").hide();
+	        window.location.href="${basePath}/generalunify/tologin";
+	    });
+	</script>
+</html>

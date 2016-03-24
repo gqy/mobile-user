@@ -1,0 +1,63 @@
+<!doctype html>
+<html>
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="maximum-scale=1.0,minimum-scale=1.0,user-scalable=0,width=device-width,initial-scale=1.0"/>
+<title>注册</title>
+<#include "../include/resources.html">
+<link rel="stylesheet" type="text/css" href="${mstaticRoot}/mobile/css/reglogin.css" />
+</head>
+<body>
+	<div class="header" id="topbar">
+        <div class="left" tapmode="headerhover" onclick="goback()">
+            <img src="${mstaticRoot}/mobile/image/abc_ic_ab_back_holo_dark.png" alt="" class="logoleft"><img src="${mstaticRoot}/mobile/image/m_drawer_icon_home_selected.png" alt="" class="logo">
+            <span class="title">注册斐讯账号</span>
+        </div>
+    </div>
+
+	<div class="divider"></div>
+	<form id="form_register" action="${basePath}/useroperate/">
+		<div class="item email"><input type="text" placeholder="账号" id="email"></div>
+		<div class="item passwd"><input type="password" placeholder="密码" id="passwd"></div>
+		<div class="item email"><input type="text" placeholder="动态码" id="validateCode" style="width:70%"><button  class="button btn-default btn-sm text-right" style="border: 1px solid transparent;border-radius: 4px;border-color: #ccc" id="btn_sendCode" onclick="sendMsgCode()">发送动态码</button></span></div>
+		<div class="item text-center"><span style="width:60%;text-align: center"><input style="width:10%" class="badge" type="checkbox"  checked value="1">我已阅读并同意<a>《斐讯用户注册协议》</a></span></div>
+		<div class="btn" onclick="" tapmode="submit-hover"><span type="submit">注册</span></div>
+	</form>
+	<div class="loginmore">
+		<span class="phone">其他登陆方式</span>
+	</div>
+	<div class="" id="bottomdivider"></div>
+
+</body>
+<script type="text/javascript">
+function doregedit(){
+	$("#form_register").submit();
+}
+function sendMsgCode(){
+	$.ajax({
+		type: 'POST',
+		contentType: 'application/json',
+		url: "${basePath}/h5/useroperate/login",
+		dataType: "json",
+		data:  regiditformToJSON(),
+		success: function(data, textStatus, jqXHR){
+			console.log(data+"----textStatus"+textStatus);
+	
+		},
+		error: function(jqXHR, textStatus, errorThrown){
+			
+		}
+	});
+}
+
+function regiditformToJSON() {
+ 	var phonenum = $.trim($('#ipt_userphone').val());
+ 	return JSON.stringify({
+ 		"userPhoneNumb": phonenum == "" ? null : phonenum, 
+ 		"userPassword": $('#ipt_pwd').val(), 
+ 		"userPassword": $('#validateCode').val(),
+
+ 		});
+ }
+</script>
+</html>

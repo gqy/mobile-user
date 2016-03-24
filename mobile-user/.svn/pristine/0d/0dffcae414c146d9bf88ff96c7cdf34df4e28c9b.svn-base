@@ -1,0 +1,5 @@
+<#if ((qqlogininfo)?default("")) == "">
+数据丢失，请勿刷新页面，可以回退或重新登录
+<#else>
+${qqlogininfo}
+</#if>

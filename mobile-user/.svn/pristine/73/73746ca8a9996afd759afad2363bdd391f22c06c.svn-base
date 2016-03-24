@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>健康监测</title>
+<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+</head>
+<body>
+	服务器运行正常...
+	
+	
+	<a href="http://127.0.0.1/mobile-user/union/toqqlogin">跳转qq</a>
+	<a href="http://192.168.1.104:8080/mobile-user/h5/useroperate/tologin">跳转</a>
+	<form action="http://127.0.0.1:8080/mobile-user/fileOperate/upload"
+        enctype="multipart/form-data" method="post">
+        <div>
+            <input type="text" readonly="readonly" /> <a
+                href="javascript:void(0);" class="input"> 浏览 <input type="file"
+                class="file" name="filename1"> </a>
+        </div>
+        <div>
+            <input type="text" readonly="readonly" /> <a
+                href="javascript:void(0);" class="input"> 浏览 <input type="file"
+                class="file" name="filename2"> </a>
+        </div>
+        <div>
+            <input type="text" readonly="readonly" /> <a
+                href="javascript:void(0);" class="input"> 浏览 <input type="file"
+                class="file" name="filename3"> </a>
+        </div>
+        <input type="submit" value="上传">
+    </form>
+</body>
+</html>

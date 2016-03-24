@@ -1,0 +1,194 @@
+<!DOCTYPE html>
+
+<html lang="en">
+<head>
+	<meta charset="utf-8">
+	<META HTTP-EQUIV="Pragma" CONTENT="no-cache"> 
+	<META HTTP-EQUIV="Cache-Control" CONTENT="no-cache"> 
+	<META HTTP-EQUIV="Expires" CONTENT="0">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+	<title>Personal Information</title>
+	<link rel="stylesheet" type="text/css" href="../css/reset.css">
+	<link rel="stylesheet" type="text/css" href="../css/common.css"/>
+	<style type="text/css">
+		article h4{margin: 8px 0 8px 24px;font-style: normal;}
+		article .wrapper .border_top{border-top: #ddd solid 1px;}
+		article .wrapper .pic_icon{height: 40px;line-height: 40px;}
+		article .wrapper .pic_icon i img{width: 40px;height: 40px;}
+		article .wrapper i img{width: 8px;height: 8px;vertical-align: middle;}
+		article .log button{background: #FF5454;}
+		article .wrapper .red{color: red;margin-right: 4px;}
+		article .about{color: #000;text-decoration: none;}
+
+		#beginTime{text-align: right;}
+
+		.mask_layer{background-color: #000;opacity: 0.4;display: none;position: fixed;top: 0;left: 0;bottom: 0;right: 0;}
+		.wrap{position: absolute;top: 100px;left: 50%;margin-left: -140px;background-color: #fff;z-index: 1000;color: #000;width: 280px;display: none;border-radius: 8px;}
+		.wrap p{padding-top: 12px;padding-bottom: 12px;text-align: center;}
+		.wrap i img{width: 18px;height: 18px;vertical-align: middle;}
+		.wrap button{background-color: #fff;width: 136px;padding-top: 12px;padding-bottom: 12px;}
+		.wrap button.confirm{border-radius: 0 0 0 8px;}
+		.wrap button.delete{border-radius: 0 0 8px 0;}
+		.wrap button:focus{background-color: #E7E8EA;}
+		.wrap .input_area{border-top: 1px solid #ccc;border-bottom: 1px solid #ccc;}
+
+		.wrap1 .input_area{padding: 12px;padding-left: 26px;height: 32px;line-height: 32px;}
+		.wrap1 .input_area input{width: 220px;color: #ccc;height: 26px;vertical-align: middle;border-bottom: 1px solid #333;}
+
+		.wrap2{display: none;}
+		.wrap2 .input_area .gender_boy{border-bottom: 1px solid #ccc;padding-bottom: 10px;}
+		.wrap2 .input_area div{overflow: hidden;height: 30px;line-height: 30px;margin: 8px;}
+		.wrap2 .input_area label{color: #000;margin-left: 10px;width: 200px;}
+		.wrap2 .input_area input{margin-top: 10px;margin-right: 10px;width: 13px;}
+		
+		.btn_delete{
+		visibility:hidden;}
+		/* .nickname .nick{color: ;} */
+
+	</style>
+</head>
+<body>
+
+	<header>
+		<div class="head">
+			<a href="#"><img src="../imgs/icon_back.png" class="back" id="back"></a>
+			<a href="#">个人信息</a>
+		</div>
+	</header>
+
+	<article>
+		<div id="content">
+			<h4 class="tips">账号</h4>
+			<div class="wrapper">
+				<div class="pwd">
+					<i>斐讯ID</i>
+					<i class="r tips" id="phicomm_id">${phicomm_id.phicommId}</i>
+				</div>
+			</div>
+
+			<h4 class="tips">基本资料</h4>
+			<div class="wrapper">
+				<div class="count pic_icon">
+					<i><img src="../imgs/Head_portrait.png"></i>
+					<i class="r tips reset" id="changeHead">修改头像</i>
+				</div>
+				<div class="pwd nickname">
+					<i>昵称</i>
+					<i class="r tips reset nick"> <#if ((phicomm_id.nickname)?default("")) == "">
+															设置
+															<#else>
+															 ${phicomm_id.nickname}
+															</#if></i>
+				</div>
+				<div class="pwd border_top sex">
+					<i>性别</i>
+					<i class="r tips reset sex_a"><#if ((phicomm_id.sex)?default("")) == "">
+															设置
+															<#else>
+															 ${phicomm_id.sex}
+															</#if></i>
+				</div>
+				<div class="pwd border_top birth">
+					<i>生日</i>
+					<i class="r tips reset birth_a kbtn" id="beginTime"><#if ((phicomm_id.birthday)?default("")) == "">
+															设置
+															<#else>
+															 ${phicomm_id.birthday}
+															</#if></i>
+				</div>
+			</div>
+            <div id="datePlugin"></div>
+			<h4 class="tips">安全设置</h4>
+			<div class="wrapper">
+				<div class="count safemobile">
+					<i>安全手机</i>
+					<i class="r"><img src="../imgs/round_dot.png"></i>
+					<i class="r tips red"><#if ((phicomm_id.userPhoneNumb)?default("")) == "">
+															为了您的安全请立即绑定
+															<#else>
+															 ${phicomm_id.userPhoneNumb}
+															</#if></i>
+				</div>
+				<div class="pwd change" >
+					<i>密码</i>
+					<i class="r tips reset" >修改</i>
+				</div>
+				
+				<div class="pwd border_top">
+					<i>安全邮箱</i>
+					<i class="r tips reset"><#if ((phicomm_id.userEmail)?default("")) == "">
+															安全邮箱
+															<#else>
+															 ${phicomm_id.userEmail}
+															</#if></i>
+				</div>
+			</div>
+
+			<h4 class="tips">其他信息</h4>
+			<div class="wrapper">
+				<div class="pwd">
+					<a href="about.html" class="about"><i>关于</i></a>
+				</div>
+			</div>
+
+			<div class="log">
+				<button>退出登录</button>
+			</div>
+		</div>
+	</article>
+
+	<div class="wrap wrap1">
+		<p>修改昵称</p>
+		<div class="input_area">
+			<input type="text" value="请输入姓名"  autocomplete="off" id="modify_name">
+			<i class="r btn_delete" id="nick_del"><img src="../imgs/btn_Eliminate.png"></i>
+		</div>
+		<button type="button" class="r delete" id="btn_nick_del">取消</button>
+		<button type="button" class="l confirm" id="btn_nick_ok">确定</button>
+	</div>
+
+	<div class="wrap wrap2">
+		<p>修改性别</p>
+		<div class="input_area">
+			<div class="gender_boy">
+				<label class="l" for="boy">男</label>
+				<input class="r" type="radio" name="radio" checked="checked" id="boy" value="男">
+			</div>
+			<div>
+				<label class="l" for="girl">女</label>
+				<input class="r" type="radio" name="radio" id="girl" value="女">
+			</div> 
+		</div>
+		<button type="button" class="r delete">取消</button>
+		<button type="button" class="l confirm">确定</button>
+	</div>
+
+	<div class="wrap wrap3">
+		<p>确认修改信息</p>
+		<div class="input_area">
+			<p class="info"></p>
+		</div>
+		<button type="button" class="r delete">取消</button>
+		<button type="button" class="l confirm">确定</button>
+	</div>
+	
+	<div class="mask_layer">
+	</div>
+
+	
+	<script type="text/javascript" src="../js/jquery-1.11.3.min.js"></script>
+	<script type="text/javascript" src="../js/date.js" ></script>
+	<script type="text/javascript" src="../js/person_info.js"></script>
+	<script type="text/javascript" src="../js/iscroll.js" ></script>
+	
+	<script>
+	
+			var context = "${basePath}";
+			var phicommId='${phicomm_id.phicommId}';
+			var openId='${phicomm_id.openId}';
+			var expireseIn='${phicomm_id.expireseIn}';
+			var accessToken='${phicomm_id.accessToken}';
+		
+		</script>
+</body>
+</html>

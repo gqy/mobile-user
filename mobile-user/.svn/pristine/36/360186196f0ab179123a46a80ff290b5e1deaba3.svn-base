@@ -1,0 +1,39 @@
+package com.fx.mobile.user.h5.controller;
+
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.servlet.ModelAndView;
+
+import com.fx.mobile.model.UserOperate;
+import com.fx.mobile.user.action.BaseAction;
+import com.fx.mobile.user.dao.UserOperateDao;
+import com.fx.mobile.user.service.UrlProperties;
+import com.fx.mobile.user.service.UserOperateService;
+
+@Controller
+@RequestMapping(value = "/unify")
+public class UnifiedAccountNumberController extends BaseAction{
+	@Autowired
+	public  UrlProperties urlProperties;
+	@Autowired
+	private UserOperateService operateService;
+	@Autowired
+	public UserOperateDao userOperateDao;
+
+	/**
+	 * 用户编辑首页
+	 */
+	@RequestMapping("/topersoninfo")
+	public ModelAndView toPersonInfo(HttpServletRequest request,HttpServletResponse response) {
+		String phicommid=request.getParameter("phicommid");
+		System.out.println("phicommmid------------------------------------------"+phicommid);	
+		ModelAndView mav  = new ModelAndView("/unify/person_info");
+		UserOperate userOperate=operateService.findUserByPhicommId(phicommid);
+		mav.addObject("phicomm_id", userOperate);
+		return mav;
+	}
+}

@@ -1,0 +1,87 @@
+<!doctype html>
+<html>
+<head>
+    <meta charset="UTF-8">
+  
+    <title>登录成功</title>
+<link rel="stylesheet" type="text/css" href="../css/bootstrap.min.css" />
+
+
+</head>
+<body>
+
+<!-- 折叠 -->
+<div class="container">
+	<div class="row">
+    	<div class="col-md-offset-1 col-md-10">
+        <div class="row" style="margin-top:50px"></div>
+            <div class="panel-group" id="accordion" style="margin-top:10px">
+			  
+              <div class="panel panel-info">
+                <div class="panel-heading">
+                  <h4 class="panel-title">
+                      <center><b>我的空间</b></center>
+                  </h4>
+                </div>
+                  <div class="panel-body">
+                    <form class="form-horizontal" action="#" method="post">
+                       <div class="form-group">
+						  <label for="userName" class="col-md-2 control-label">
+							<img src="${Session.qqUserSession.avatar.avatarURL100}" height="100px" width="100px">
+						  </label>
+						  <div class="col-md-7 col-md-offset-1">
+							  <div class="row">
+								<div class="col-md-4" style="padding-top:8px;padding-bottom:8px">
+									用户名：${Session.qqUserSession.nickname}
+								</div>
+								<div class="col-md-4" style="padding-top:8px;padding-bottom:8px">
+									 用户信息：${Session.qqUserSession.msg}
+								</div>
+								<div class="col-md-4" style="padding-top:8px;padding-bottom:8px">
+									性别：${Session.qqUserSession.gender}
+								</div>
+							  </div>
+							  <div class="row">
+								<div class="col-md-4" style="padding-top:8px;padding-bottom:8px">
+									qq等级：${Session.qqUserSession.level}
+								</div>
+								<div class="col-md-4" style="padding-top:8px;padding-bottom:8px">
+									姓名： 葛沁阳
+								</div>
+								<div class="col-md-4" style="padding-top:8px;padding-bottom:8px">
+									ret：${Session.qqUserSession.ret}
+								</div>
+							  </div>
+							  <div class="row">
+								<div class="col-md-8" style="padding-top:8px;padding-bottom:8px">
+									公司：斐讯通信
+								</div>
+								<div class="col-md-4">
+									<a href="spacechange.html"><button type="button" class="btn btn-warning">编辑资料</button></a>
+								</div>
+							  </div>
+                          </div>
+                       </div>
+						
+						<div class="panel panel-danger">
+						   <div class="panel-heading">我的帖子</div>
+						   <table class="table table-hover">
+							  <th>发布内容</th><th>发布时间</th>
+							  <tr><td class="col-md-10"><a href="todo.html">免费域名注册</a></td><td class="col-md-2">15-01-04</td></tr>
+							  <tr><td class="col-md-10"><a href="todo.html">免费 Window 空间托管</a></td><td class="col-md-2">15-03-01</td></tr>
+							  <tr><td class="col-md-10"><a href="todo.html">图像的数量</a></td><td class="col-md-2">15-03-01</td></tr>
+							  <tr><td class="col-md-10"><a href="todo.html">24*7 支持</a></td><td class="col-md-2">15-03-01</td></tr>
+							  <tr><td class="col-md-10"><a href="todo.html">每年更新成本</a></td><td class="col-md-2">15-03-01</td></tr>
+						   </table>
+						</div>
+                    </form>
+                  </div>
+              </div>
+			  <!-- 系统设备用户 -->
+            </div>
+        </div>
+	</div>
+</div>
+<!-- 折叠结束 -->
+</body>
+</html>
